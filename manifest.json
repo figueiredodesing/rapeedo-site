@@ -1,0 +1,14 @@
+{
+  "name": "Rapeedo Internet Fibra Óptica",
+  "short_name": "Rapeedo",
+  "description": "Internet fibra óptica no Vale do Jequitinhonha e Sudoeste da Bahia.",
+  "start_url": "/home.html",
+  "display": "standalone",
+  "background_color": "#0050A4",
+  "theme_color": "#0050A4",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "img/logo-rapeedo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "img/logo-rapeedo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

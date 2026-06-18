@@ -1,0 +1,3588 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rapeedo — Internet Fibra Óptica no Vale do Jequitinhonha</title>
+  <meta name="description" content="A Rapeedo oferece internet fibra óptica de verdade no Vale do Jequitinhonha e Sudoeste da Bahia. Planos de 500Mb a 1Giga com streaming incluso. Atendimento local, instalação rápida." />
+  <meta name="keywords" content="internet fibra óptica, Medina MG, Vale do Jequitinhonha, provedor internet, Rapeedo" />
+  <link rel="icon" type="image/png" href="img/logo-rapeedo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Rapeedo — Internet Fibra Óptica no Vale do Jequitinhonha" />
+  <meta property="og:description" content="Fibra óptica de verdade para sua casa, empresa ou para jogar. Planos a partir de R$99,90. Atendimento local em 27 cidades." />
+  <meta property="og:image" content="img/slide-residencial.jpg" />
+  <meta property="og:url" content="https://rapeedo.com.br" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0050A4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="preload" as="image" href="img/slide-residencial.jpg" />
+  <link rel="preload" as="image" href="img/logo-rapeedo.png" />
+  <!-- Google Analytics 4 — substitua G-XXXXXXXXXX pelo seu Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:      #0050A4;
+      --blue-dark: #0A2C66;
+      --orange:    #EC6C04;
+      --bg-light:  #DCE6F8;
+      --neutral:   #F2F2F2;
+      --text:      #1a1d23;
+      --muted:     #6b7280;
+      --subtle:    #9ca3af;
+      --border:    #e4e7ec;
+      --white:     #ffffff;
+    }
+
+    /* ── DARK MODE ── */
+    body.dark {
+      --blue:      #4d9fff;
+      --blue-dark: #1a3a7a;
+      --orange:    #ff8c3a;
+      --bg-light:  #1e2d47;
+      --neutral:   #111827;
+      --text:      #f1f5f9;
+      --muted:     #94a3b8;
+      --subtle:    #64748b;
+      --border:    #1e293b;
+      --white:     #0f172a;
+    }
+    body.dark .navbar { background: rgba(15,23,42,0.95); border-color: #1e293b; }
+    body.dark .navbar.scrolled { background: rgba(15,23,42,0.82); }
+
+    /* ── PLANOS DARK MODE ── */
+    body.dark .plan-head { background: #1e3a5f; }
+    body.dark .plan-card.featured .plan-head { background: linear-gradient(135deg,#7a3400,#c05a00); }
+    body.dark .plan-card { border-color: #2a3f5f; background: #151f30; }
+    body.dark .plan-card.featured { border-color: var(--orange); }
+    body.dark .plan-card.blue-border { border-color: #4d9fff; }
+    body.dark .plan-body { background: #151f30; }
+    body.dark .plan-speed { color: #ffffff; }
+    body.dark .plan-price strong { color: #60b4ff; }
+    body.dark .plan-price small, body.dark .plan-price span { color: #94a3b8; }
+    body.dark .plan-feats li { color: #cbd5e1; }
+    body.dark .ck { background: #1e3a5f; color: #60b4ff; }
+    body.dark .plan-card.featured .ck { background: #3d1a00; color: var(--orange); }
+    body.dark .plan-pop { color: #ffffff; }
+    body.dark .btn-plan-outline { color: #60b4ff; border-color: #2a3f5f; }
+    body.dark .btn-plan-outline:hover { background: #1e3a5f; border-color: #4d9fff; }
+    body.dark .btn-plan-filled { color: #ffffff; }
+    body.dark .btn-plan-wa { color: #ffffff; }
+    body.dark .stream-badge { background: #1e3a5f; border-color: #4d9fff; color: #60b4ff; }
+    body.dark .plan-details summary { color: #94a3b8; }
+    body.dark .plan-details li { color: #94a3b8; }
+    body.dark .plan-details li::before { background: #94a3b8; }
+    body.dark .footer { background: #060e1a; }
+    .btn-dark {
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; color: var(--muted); font-size: 1rem; transition: all 0.15s;
+    }
+    .btn-dark:hover { background: var(--neutral); color: var(--text); }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', Arial, sans-serif; background: var(--neutral); color: var(--text); overflow-x: hidden; }
+
+    /* ── ABAS LATERAIS ── */
+    .side-tabs {
+      position: fixed; right: 0; top: 68%; transform: translateY(-68%);
+      z-index: 200; display: flex; flex-direction: column; gap: 6px;
+    }
+    .side-tab {
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.72rem 1rem 0.72rem 0.85rem;
+      font-size: 0.76rem; font-weight: 700; letter-spacing: 0.02em;
+      color: white; text-decoration: none; cursor: pointer;
+      border: none; font-family: inherit; white-space: nowrap;
+      border-radius: 10px 0 0 10px;
+      box-shadow: -2px 2px 12px rgba(0,0,0,0.2);
+      width: 196px;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .side-tab:hover { transform: translateX(-6px); box-shadow: -6px 4px 20px rgba(0,0,0,0.25); }
+    .side-tab-contact { background: var(--blue); }
+    .side-tab-speed   { background: var(--orange); }
+    .side-tab-quiz    { background: #7c3aed; }
+    .side-tab-calc    { background: #059669; }
+    .side-tab svg { flex-shrink: 0; width: 15px; height: 15px; }
+
+    /* Painel de contato */
+    .contact-panel {
+      position: fixed; right: -340px; top: 0; bottom: 0; width: 320px;
+      background: var(--white); z-index: 300; box-shadow: -6px 0 32px rgba(0,0,0,0.14);
+      transition: right 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+    }
+    .contact-panel.open { right: 0; }
+    .cp-head {
+      background: var(--blue); padding: 1.4rem 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cp-head h3 { color: white; font-size: 1rem; font-weight: 700; margin: 0; }
+    .cp-close {
+      background: rgba(255,255,255,0.15); border: none; color: white;
+      width: 30px; height: 30px; border-radius: 8px; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .cp-close:hover { background: rgba(255,255,255,0.28); }
+    .cp-body { padding: 1.5rem 1.25rem; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .cp-option {
+      display: flex; align-items: center; gap: 0.85rem;
+      padding: 1rem 1.1rem; border-radius: 12px; text-decoration: none;
+      border: 1.5px solid var(--border); transition: all 0.18s; color: var(--text);
+    }
+    .cp-option:hover { border-color: var(--blue); background: var(--bg-light); }
+    .cp-opt-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .cp-opt-icon svg { width: 20px; height: 20px; }
+    .cp-opt-label strong { display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.1rem; }
+    .cp-opt-label span { font-size: 0.78rem; color: var(--muted); }
+    .cp-overlay {
+      display: none; position: fixed; inset: 0; z-index: 299;
+      background: rgba(0,0,0,0.35);
+    }
+    .cp-overlay.open { display: block; }
+
+    /* ── SEARCH OVERLAY ── */
+    .search-overlay {
+      position: fixed; inset: 0; background: rgba(10,44,102,0.92); z-index: 999;
+      display: none; align-items: flex-start; justify-content: center; padding-top: 6rem;
+    }
+    .search-overlay.open { display: flex; }
+    .search-box {
+      background: var(--white); border-radius: 14px; padding: 1.5rem;
+      width: 100%; max-width: 560px; margin: 0 1rem; position: relative;
+    }
+    .search-box input {
+      width: 100%; border: 1.5px solid var(--border); border-radius: 9px;
+      padding: 0.85rem 1rem; font-size: 1rem; font-family: inherit; outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-box input:focus { border-color: var(--blue); }
+    .search-close {
+      position: absolute; top: -2.5rem; right: 0; background: none; border: none;
+      color: white; font-size: 1.5rem; cursor: pointer;
+    }
+    .search-hints { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .search-hint {
+      background: var(--neutral); border: 1px solid var(--border); border-radius: 50px;
+      padding: 0.3rem 0.85rem; font-size: 0.8rem; color: var(--muted); cursor: pointer;
+      transition: all 0.15s;
+    }
+    .search-hint:hover { background: var(--bg-light); color: var(--blue); border-color: var(--blue); }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .ann-bar {
+      background: #0A2C66;
+      color: rgba(255,255,255,0.9); text-align: center;
+      padding: 0.6rem 3rem;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.01em;
+      position: relative; z-index: 101;
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    }
+    .ann-tag {
+      background: var(--orange); color: #fff;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem;
+      border-radius: 4px; flex-shrink: 0;
+    }
+    .ann-text { color: rgba(255,255,255,0.88); }
+    .ann-text strong { color: #ffffff; font-weight: 700; }
+    .ann-bar a {
+      color: var(--orange); text-decoration: none; font-weight: 700;
+      font-size: 0.78rem; border-bottom: 1px solid rgba(236,108,4,0.4);
+      transition: border-color 0.15s;
+    }
+    .ann-bar a:hover { border-color: var(--orange); }
+    .ann-sep { color: rgba(255,255,255,0.25); margin: 0 0.15rem; }
+    .ann-close {
+      position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: rgba(255,255,255,0.6);
+      cursor: pointer; font-size: 1rem; line-height: 1; padding: 0;
+    }
+    .ann-close:hover { color: white; }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .navbar.scrolled {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 2px 28px rgba(0,0,0,0.10);
+    }
+    .navbar-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 2rem;
+      display: flex; align-items: center; height: 68px;
+    }
+    .logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+    .logo svg { height: 38px; width: auto; display: block; }
+
+    /* Tudo à direita da logo */
+    .nav-right {
+      margin-left: auto; display: flex; align-items: center; gap: 0.5rem;
+    }
+
+    .nav-links { display: flex; list-style: none; gap: 0.1rem; }
+    .nav-links > li { position: relative; }
+    .nav-links a, .nav-btn {
+      color: var(--muted); text-decoration: none; font-size: 0.875rem; font-weight: 500;
+      padding: 0.45rem 0.8rem; border-radius: 7px; display: flex; align-items: center; gap: 0.3rem;
+      cursor: pointer; border: none; background: transparent; font-family: inherit;
+      transition: color 0.15s, background 0.15s; white-space: nowrap;
+    }
+    .nav-links a:hover, .nav-btn:hover { color: var(--text); background: var(--neutral); }
+    .nav-links a.active { color: var(--blue); font-weight: 600; }
+
+    /* dropdown */
+    .dropdown-menu {
+      position: absolute; top: calc(100% + 4px); left: 0;
+      background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+      padding: 0.5rem; min-width: 220px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      display: none; z-index: 50;
+    }
+    .nav-links > li:hover .dropdown-menu { display: block; }
+    .dropdown-menu a {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.85rem; border-radius: 8px; text-decoration: none;
+      color: var(--text); font-size: 0.875rem; font-weight: 500; transition: background 0.15s;
+    }
+    .dropdown-menu a:hover { background: var(--neutral); }
+    .dropdown-menu a .d-icon {
+      width: 32px; height: 32px; border-radius: 8px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      color: var(--blue);
+    }
+    .dropdown-menu a .d-icon svg { width: 16px; height: 16px; }
+    .dropdown-menu a .d-text small { display: block; font-size: 0.72rem; color: var(--muted); font-weight: 400; }
+    .caret { font-size: 0.65rem; margin-left: 1px; }
+
+    .nav-end { margin-left: auto; display: flex; align-items: center; gap: 0.6rem; }
+    .btn-search {
+      width: 36px; height: 36px; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; color: var(--muted); font-size: 1rem; transition: all 0.15s;
+    }
+    .btn-search:hover { background: var(--neutral); color: var(--text); }
+    .btn-area {
+      background: var(--blue); color: var(--white); border: none;
+      border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.85rem; font-weight: 700;
+      cursor: pointer; transition: background 0.15s; font-family: inherit; white-space: nowrap;
+    }
+    .btn-area:hover { background: var(--blue-dark); }
+
+    /* ── CAROUSEL ── */
+    .carousel { position: relative; overflow: hidden; background: var(--blue-dark); }
+    .carousel-track { display: flex; transition: transform 0.65s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+
+    .carousel-slide {
+      min-width: 100%; position: relative; overflow: hidden;
+      height: 600px; display: flex; align-items: center;
+      background-size: cover; background-position: center center;
+    }
+    /* Overlay: azul escuro forte à esquerda, transparente à direita — foto aparece */
+    .carousel-slide::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(
+        105deg,
+        rgba(10,44,102,0.97) 0%,
+        rgba(10,44,102,0.90) 35%,
+        rgba(10,44,102,0.55) 58%,
+        rgba(10,44,102,0.15) 78%,
+        rgba(10,44,102,0.0)  100%
+      );
+    }
+
+    /* Residencial – casal assistindo filme na sala */
+    .slide-residencial {
+      background-image: url('img/slide-residencial.jpg');
+      background-position: center center;
+    }
+    /* Gamer – rapaz com setup RGB e bandeira brasileira */
+    .slide-gamer {
+      background-image: url('img/slide-gamer.jpg');
+      background-position: center center;
+    }
+    /* Empresarial – equipe em reunião de trabalho */
+    .slide-empresarial {
+      background-image: url('img/slide-empresarial.jpg');
+      background-position: center center;
+    }
+    /* Smart – casa inteligente / automação residencial */
+    .slide-smart {
+      background-image: url('https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=1400&fit=crop&h=700');
+      background-position: center center;
+    }
+
+    .slide-content {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+      padding: 5rem 1.5rem 5rem 5rem;
+      max-width: 560px; margin-left: max(1.5rem, calc((100vw - 1200px)/2));
+    }
+    .slide-badge {
+      display: inline-block; background: rgba(236,108,4,0.18); border: 1px solid rgba(236,108,4,0.45);
+      color: #f5a05a; border-radius: 4px; padding: 0.25rem 0.85rem;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .slide-content h2 {
+      font-size: clamp(1.9rem, 3.2vw, 2.9rem); font-weight: 900; color: var(--white);
+      line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .slide-content h2 span { color: var(--orange); }
+    .slide-content p {
+      font-size: 1.05rem; color: rgba(255,255,255,0.72); line-height: 1.7;
+      margin-bottom: 2.25rem; max-width: 440px;
+    }
+    .slide-btns { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+    .btn-slide-primary {
+      background: var(--orange); color: var(--white); border: none;
+      border-radius: 8px; padding: 0.85rem 1.75rem; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+      text-decoration: none; display: inline-block;
+    }
+    .btn-slide-primary:hover { background: #d45e02; }
+    .btn-slide-ghost {
+      background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9);
+      border: 1.5px solid rgba(255,255,255,0.3); border-radius: 8px;
+      padding: 0.85rem 1.75rem; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+      text-decoration: none; display: inline-block; backdrop-filter: blur(4px);
+    }
+    .btn-slide-ghost:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.6); }
+
+    /* Carousel controls */
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.25);
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; backdrop-filter: blur(6px);
+    }
+    .carousel-btn:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); }
+    .carousel-btn.prev { left: 1.5rem; }
+    .carousel-btn.next { right: 1.5rem; }
+    .carousel-btn svg { width: 20px; height: 20px; }
+
+    /* Dots */
+    .carousel-dots {
+      position: absolute; bottom: 2rem; left: max(1.5rem, calc((100vw - 1200px)/2));
+      display: flex; gap: 0.5rem; z-index: 10;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.35); border: none; cursor: pointer;
+      transition: all 0.25s; padding: 0;
+    }
+    .dot.active { background: var(--orange); width: 28px; border-radius: 4px; }
+
+    /* Barra de progresso */
+    .carousel-progress {
+      position: absolute; bottom: 0; left: 0; height: 3px;
+      background: var(--orange); z-index: 10;
+      animation: slideProgress 5s linear infinite;
+    }
+    @keyframes slideProgress { from { width: 0% } to { width: 100% } }
+    @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+
+    .btn-hero-orange {
+      background: var(--orange); color: var(--white); border: none;
+      border-radius: 9px; padding: 0.85rem 1.75rem; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .btn-hero-orange:hover { background: #d45e02; }
+    .btn-hero-ghost {
+      background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.3); border-radius: 9px;
+      padding: 0.85rem 1.75rem; font-size: 0.95rem; font-weight: 600;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-hero-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.6); }
+
+    /* ── AUTHORITY ── */
+    .authority { background: var(--white); border-bottom: 1px solid var(--border); }
+    .authority-inner {
+      max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem;
+      display: grid; grid-template-columns: repeat(4,1fr); gap: 0; text-align: center;
+    }
+    .auth-item {
+      padding: 1.5rem 1rem; border-right: 1px solid var(--border);
+    }
+    .auth-item:last-child { border-right: none; }
+    .auth-val { font-size: 2.4rem; font-weight: 900; color: var(--blue); letter-spacing: -0.04em; line-height: 1; margin-bottom: 0.4rem; }
+    .auth-val em { font-style: normal; color: var(--orange); }
+    .auth-lbl { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── VERIFICADOR DE COBERTURA ── */
+    .verif-section {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, #0a3d7a 100%);
+      padding: 2.5rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .verif-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+    .verif-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      pointer-events: none;
+    }
+    .verif-wrap {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; align-items: center; gap: 2.5rem;
+      position: relative; z-index: 1;
+    }
+    .verif-left { flex: 0 0 auto; max-width: 340px; }
+    .verif-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      color: #ffffff; font-size: 0.75rem; font-weight: 600;
+      padding: 0.3rem 0.75rem; border-radius: 999px; margin-bottom: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+    .verif-title {
+      font-size: 1.65rem; font-weight: 800; color: #ffffff;
+      line-height: 1.2; margin-bottom: 0.5rem;
+    }
+    .verif-sub { font-size: 0.9rem; color: rgba(255,255,255,0.72); line-height: 1.5; }
+    .verif-right { flex: 1; }
+    .verif-input-wrap {
+      display: flex; align-items: center;
+      background: #ffffff; border-radius: 12px;
+      padding: 0.35rem 0.35rem 0.35rem 1rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      gap: 0.5rem;
+    }
+    .verif-icon-input { width: 18px; height: 18px; color: #9ca3af; flex-shrink: 0; }
+    .verif-input {
+      flex: 1; border: none; outline: none;
+      font-size: 1rem; font-family: inherit;
+      color: #1a1d23; background: transparent;
+      min-width: 0;
+    }
+    .verif-input::placeholder { color: #9ca3af; }
+    .verif-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--orange); color: #ffffff;
+      border: none; border-radius: 9px;
+      padding: 0.7rem 1.25rem;
+      font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.18s, transform 0.1s;
+      font-family: inherit;
+    }
+    .verif-btn:hover { background: #d45f00; transform: translateY(-1px); }
+    .verif-btn:active { transform: translateY(0); }
+    .verif-btn-icon { width: 16px; height: 16px; }
+    .verif-result {
+      margin-top: 0.85rem;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .verif-result.show { max-height: 200px; opacity: 1; }
+    .verif-card {
+      display: flex; align-items: flex-start; gap: 0.85rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 10px; padding: 0.9rem 1rem;
+      backdrop-filter: blur(8px);
+    }
+    .verif-card.success { border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.12); }
+    .verif-card.notfound { border-color: rgba(251,191,36,0.5); background: rgba(251,191,36,0.1); }
+    .verif-card.error { border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.1); }
+    .verif-card-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+    .verif-card-body { flex: 1; }
+    .verif-card-title { font-size: 0.92rem; font-weight: 700; color: #ffffff; margin-bottom: 0.25rem; }
+    .verif-card-desc { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-bottom: 0.6rem; }
+    .verif-card-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .verif-card-btns a {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      padding: 0.38rem 0.85rem; border-radius: 7px;
+      font-size: 0.78rem; font-weight: 700; text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .verif-card-btns a:hover { opacity: 0.88; transform: translateY(-1px); }
+    .verif-card-btns .btn-verif-primary { background: #ffffff; color: var(--blue-dark); }
+    .verif-card-btns .btn-verif-wa { background: #25D366; color: #ffffff; }
+    .verif-card-btns .btn-verif-warn { background: rgba(251,191,36,0.9); color: #1a1100; }
+    body.dark .verif-input { color: #1a1d23; }
+    @media (max-width: 768px) {
+      .verif-section { padding: 2rem 1.1rem; }
+      .verif-wrap { flex-direction: column; gap: 1.25rem; align-items: stretch; }
+      .verif-left { max-width: 100%; }
+      .verif-title { font-size: 1.3rem; }
+      .verif-sub { font-size: 0.82rem; }
+      .verif-btn-text { display: none; }
+      .verif-btn { padding: 0.7rem 0.85rem; }
+      .verif-btn-icon { width: 18px; height: 18px; }
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 3rem 1.5rem; }
+    .stats-inner {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; text-align: center;
+    }
+    .stat-item {
+      padding: 0.5rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-val {
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900;
+      color: var(--blue); letter-spacing: -0.04em; line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat-val em { font-style: normal; color: var(--orange); }
+    .stat-lbl { font-size: 0.8rem; color: var(--muted); line-height: 1.4; }
+    @media (max-width: 768px) {
+      .stats-inner { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
+      .stat-item:nth-child(3), .stat-item:last-child { border-bottom: none; }
+    }
+
+    /* ── SECTION COMMONS ── */
+    .section { padding: 5rem 1.5rem; }
+    .sec-inner { max-width: 1200px; margin: 0 auto; }
+    .sec-head { margin-bottom: 2.75rem; }
+    .sec-head.center { text-align: center; }
+    .tag {
+      display: inline-block; border-radius: 50px; padding: 0.25rem 0.85rem;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.85rem;
+    }
+    .tag-orange { background: #fff3e8; color: var(--orange); }
+    .tag-blue { background: var(--bg-light); color: var(--blue); }
+    .sec-head h2 {
+      font-size: clamp(1.5rem,3vw,2.1rem); font-weight: 800; color: var(--text);
+      letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 0.75rem;
+    }
+    .sec-head h2 em { font-style: normal; color: var(--orange); }
+    .sec-head p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; max-width: 560px; }
+    .sec-head.center p { margin: 0 auto; }
+
+    /* ── SOLUTIONS ── */
+    .solutions { background: var(--neutral); }
+    .sol-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; }
+    .sol-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.75rem; display: flex; flex-direction: column;
+      transition: box-shadow 0.2s, border-color 0.2s; cursor: pointer; text-decoration: none;
+    }
+    .sol-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); border-color: #b8cfe8; }
+    .sol-icon {
+      width: 52px; height: 52px; border-radius: 13px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1.1rem;
+      color: var(--blue);
+    }
+    .sol-icon svg { width: 26px; height: 26px; }
+    .sol-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .sol-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; flex: 1; }
+    .sol-link {
+      margin-top: 1.25rem; font-size: 0.82rem; font-weight: 700; color: var(--blue);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .sol-link::after { content: '→'; }
+
+    /* ── PLANS ── */
+    .plans { background: var(--white); }
+    .plan-tabs {
+      display: flex; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap;
+    }
+    .plan-tab {
+      padding: 0.5rem 1.1rem; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+      border: 1.5px solid var(--border); background: transparent; color: var(--muted);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .plan-tab.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .plan-tab:not(.active):hover { border-color: var(--blue); color: var(--blue); }
+    .plans-pane { display: none; }
+    .plans-pane.active { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .plan-card {
+      border: 2px solid var(--border); border-radius: 16px; overflow: hidden;
+      display: flex; flex-direction: column; transition: box-shadow 0.2s;
+    }
+    .plan-card:hover { box-shadow: 0 8px 28px rgba(0,0,0,0.09); }
+    .plan-card.featured { border-color: var(--orange); }
+    .plan-card.blue-border { border-color: var(--blue); }
+    .plan-pop {
+      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      background: var(--orange); color: var(--white);
+      padding: 0.2rem 1rem; border-radius: 0 0 8px 8px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      white-space: nowrap; z-index: 2;
+    }
+    .plan-card { position: relative; }
+    .plan-head {
+      padding: 1.75rem 1.75rem 1.25rem; background: var(--blue-dark);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .plan-card.featured .plan-head { background: linear-gradient(135deg, #7a3400, var(--orange)); }
+    .plan-tier { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 0.5rem; }
+    .plan-speed { font-size: 3.5rem; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -0.04em; }
+    .plan-speed span { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,0.6); }
+    .plan-body { padding: 1.5rem 1.75rem; flex: 1; display: flex; flex-direction: column; }
+    .plan-price { margin-bottom: 1.5rem; }
+    .plan-price small { font-size: 0.75rem; color: var(--subtle); display: block; }
+    .plan-price strong { font-size: 2.2rem; font-weight: 900; color: var(--blue); line-height: 1; }
+    .plan-card.featured .plan-price strong { color: var(--orange); }
+    .plan-price span { font-size: 0.8rem; color: var(--muted); }
+    .plan-feats { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; margin-bottom: 1.5rem; }
+    .plan-feats li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.84rem; color: var(--muted); }
+    .ck {
+      width: 18px; height: 18px; border-radius: 50%; background: var(--bg-light); color: var(--blue);
+      display: flex; align-items: center; justify-content: center; font-size: 0.62rem; font-weight: 900;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .plan-card.featured .ck { background: #fff3e8; color: var(--orange); }
+    .btn-plan {
+      width: 100%; padding: 0.75rem; border-radius: 9px; font-size: 0.875rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .btn-plan-outline { background: transparent; color: var(--blue); border: 1.5px solid var(--border); }
+    .btn-plan-outline:hover { border-color: var(--blue); background: var(--bg-light); }
+    .btn-plan-filled { background: var(--orange); color: var(--white); border: none; }
+    .btn-plan-filled:hover { background: #d45e02; }
+    .btn-plan-wa { background: #25D366; color: var(--white); border: none; }
+    .btn-plan-wa:hover { background: #1daa52; }
+
+    /* ── STREAMING BADGES ── */
+    .stream-row {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.1rem;
+    }
+    /* Badge sempre sobre fundo branco (plan-body) */
+    .stream-badge {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: var(--bg-light); border: 1.5px solid var(--blue);
+      border-radius: 8px; padding: 0.35rem 0.7rem;
+      font-size: 0.8rem; font-weight: 700; color: var(--blue); letter-spacing: 0.01em;
+    }
+    .stream-badge svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+    /* Mais detalhes — fundo sempre branco no plan-body */
+    .plan-details {
+      margin-top: 0.85rem; border-top: 1px solid var(--border); padding-top: 0.85rem;
+    }
+    .plan-details summary {
+      font-size: 0.78rem; font-weight: 600; color: var(--muted); cursor: pointer;
+      list-style: none; display: flex; align-items: center; gap: 0.3rem;
+      user-select: none;
+    }
+    .plan-details summary::-webkit-details-marker { display: none; }
+    .plan-details summary::after { content: '▾'; font-size: 0.65rem; transition: transform 0.2s; }
+    .plan-details[open] summary::after { transform: rotate(-180deg); }
+    .plan-details ul {
+      list-style: none; margin-top: 0.6rem;
+      display: flex; flex-direction: column; gap: 0.45rem;
+    }
+    .plan-details li {
+      font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem;
+    }
+    .plan-details li::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--muted); flex-shrink: 0;
+    }
+
+    /* ── COVERAGE ── */
+    .coverage { background: var(--neutral); }
+    .coverage-layout {
+      display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; align-items: start;
+    }
+    #map {
+      height: 420px; border-radius: 14px; border: 1px solid var(--border);
+      overflow: hidden; z-index: 1;
+    }
+    .city-list-wrap { display: flex; flex-direction: column; gap: 0.75rem; max-height: 420px; overflow-y: auto; padding-right: 0.25rem; }
+    .city-list-wrap::-webkit-scrollbar { width: 4px; }
+    .city-list-wrap::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
+    .city-list-wrap::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 4px; }
+    .city-search-wrap {
+      position: relative; margin-bottom: 0.85rem;
+    }
+    .city-search-wrap svg {
+      position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);
+      width: 15px; height: 15px; color: var(--muted); pointer-events: none;
+    }
+    .city-search {
+      width: 100%; padding: 0.6rem 0.85rem 0.6rem 2.25rem;
+      border: 1.5px solid var(--border); border-radius: 9px;
+      font-size: 0.85rem; font-family: inherit; outline: none;
+      background: var(--white); color: var(--text);
+      transition: border-color 0.15s;
+    }
+    .city-search:focus { border-color: var(--blue); }
+    .city-search::placeholder { color: var(--subtle); }
+    .city-state-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; margin-bottom: 0.25rem; }
+    .city-chip {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--white); border: 1px solid var(--border); border-radius: 9px;
+      padding: 0.65rem 0.85rem; font-size: 0.85rem; color: var(--text);
+      text-decoration: none; transition: all 0.15s;
+    }
+    .city-chip:hover { border-color: var(--blue); background: var(--bg-light); }
+    .city-chip.sede { border-color: var(--orange); }
+    .city-chip .sede-badge { font-size: 0.65rem; font-weight: 700; background: var(--orange); color: white; border-radius: 4px; padding: 0.1rem 0.4rem; }
+    .city-chip .wa-icon { font-size: 0.85rem; }
+
+    /* ── CITY TOOLTIP ── */
+    .city-tooltip {
+      position: fixed; z-index: 9999; pointer-events: none;
+      background: var(--blue-dark); color: white;
+      border-radius: 12px; padding: 0;
+      width: 240px; font-size: 0.78rem; line-height: 1.55;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.35);
+      opacity: 0; transform: translateY(8px) scale(0.96);
+      transition: opacity 0.2s, transform 0.2s;
+      overflow: hidden;
+    }
+    .city-tooltip.show { opacity: 1; transform: translateY(0) scale(1); }
+    .ct-img {
+      width: 100%; height: 120px; object-fit: cover; display: block;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+    }
+    .ct-img-placeholder {
+      width: 100%; height: 120px; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0050A4 0%, #0A2C66 100%);
+      color: rgba(255,255,255,0.25); font-size: 2.5rem;
+    }
+    .ct-body { padding: 0.7rem 0.85rem 0.8rem; }
+    .ct-name { font-size: 0.85rem; font-weight: 700; color: #93c5fd; margin-bottom: 0.3rem; }
+    .ct-desc { font-size: 0.75rem; color: rgba(255,255,255,0.75); line-height: 1.5; }
+    .coverage-note {
+      margin-top: 1.5rem; background: var(--bg-light); border: 1px solid #b8cfe8;
+      border-radius: 10px; padding: 1rem 1.1rem;
+      font-size: 0.82rem; color: var(--blue); line-height: 1.6;
+    }
+
+    /* ── SUPPORT ── */
+    .support { background: var(--white); }
+    .support-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .support-card {
+      border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem;
+      transition: box-shadow 0.2s;
+    }
+    .support-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .sup-icon {
+      width: 48px; height: 48px; border-radius: 12px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;
+      color: var(--blue);
+    }
+    .sup-icon svg { width: 24px; height: 24px; }
+    .support-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .support-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .hours-tag {
+      display: inline-block; background: var(--neutral); border-radius: 6px;
+      padding: 0.3rem 0.75rem; font-size: 0.78rem; font-weight: 700; color: var(--blue);
+    }
+    .sup-contact a {
+      display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;
+      color: var(--blue); text-decoration: none; font-weight: 600; margin-top: 0.5rem;
+    }
+    .sup-contact a:hover { text-decoration: underline; }
+
+    /* ── WHY ── */
+    .why { background: var(--neutral); }
+    .why-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.25rem; }
+    .why-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.75rem; display: flex; gap: 1.25rem; transition: box-shadow 0.2s;
+    }
+    .why-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .why-icon {
+      width: 52px; height: 52px; border-radius: 13px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      color: var(--blue);
+    }
+    .why-icon svg { width: 26px; height: 26px; }
+    .why-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .why-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── WHO ── */
+    .who { background: var(--white); }
+    .who-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .who-content p { font-size: 0.95rem; color: var(--muted); line-height: 1.75; margin-bottom: 1rem; }
+    .who-content p:last-child { margin-bottom: 0; }
+    .who-photo-wrap { position: relative; }
+    .who-photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(10,44,102,0.85) 0%, transparent 100%);
+      color: white; font-size: 0.75rem; font-weight: 600;
+      padding: 1.2rem 1rem 0.75rem;
+      border-radius: 0 0 16px 16px;
+      letter-spacing: 0.03em;
+    }
+    .who-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .who-fact {
+      background: var(--neutral); border-radius: 12px; padding: 1.25rem;
+    }
+    .who-fact strong { font-size: 1.6rem; font-weight: 900; color: var(--blue); display: block; }
+    .who-fact span { font-size: 0.8rem; color: var(--muted); }
+    .who-principle {
+      margin-top: 1.5rem; border-left: 3px solid var(--orange);
+      padding-left: 1rem; font-size: 0.85rem; color: var(--muted); line-height: 1.65;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta { background: var(--blue-dark); padding: 5rem 1.5rem; text-align: center; }
+    .final-cta h2 {
+      font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 800; color: #ffffff;
+      letter-spacing: -0.03em; margin-bottom: 1rem;
+    }
+    .final-cta p { font-size: 0.95rem; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 2.5rem; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .cta-grid {
+      display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;
+    }
+    .btn-cta {
+      padding: 0.8rem 1.5rem; border-radius: 9px; font-size: 0.875rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: all 0.15s; text-decoration: none; display: inline-block;
+    }
+    .btn-cta-orange { background: var(--orange); color: #ffffff; border: none; }
+    .btn-cta-orange:hover { background: #d45e02; }
+    .btn-cta-white-out { background: transparent; color: #ffffff; border: 1.5px solid rgba(255,255,255,0.3); }
+    .btn-cta-white-out:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.6); }
+    .cta-contact {
+      font-size: 0.82rem; color: rgba(255,255,255,0.45);
+    }
+    .cta-contact a { color: rgba(255,255,255,0.65); text-decoration: none; }
+    .cta-contact a:hover { color: var(--white); }
+
+    /* ── MODAL FORMULÁRIO ── */
+    .form-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 400;
+      background: rgba(10,44,102,0.55); backdrop-filter: blur(4px);
+    }
+    .form-modal-overlay.open { display: block; }
+    .form-modal {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -60%);
+      z-index: 401; width: 90%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+      background: var(--white); border-radius: 20px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .form-modal.open { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%); }
+    .form-modal-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 1.5rem 1.5rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .form-modal-head h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 0.15rem; }
+    .form-modal-head p { font-size: 0.8rem; color: var(--muted); }
+    .form-modal-body { padding: 1.5rem; }
+
+    /* ── CONTACT FORM ── */
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+      max-width: 960px; margin: 0 auto;
+    }
+    .contact-info-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem; }
+    .contact-info-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .ci-icon {
+      width: 42px; height: 42px; border-radius: 10px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--blue);
+    }
+    .ci-icon svg { width: 18px; height: 18px; }
+    .ci-text strong { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.15rem; }
+    .ci-text span, .ci-text a { font-size: 0.875rem; color: var(--muted); text-decoration: none; }
+    .ci-text a:hover { color: var(--blue); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+    .form-group input, .form-group select, .form-group textarea {
+      padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 0.9rem; font-family: inherit; color: var(--text); background: var(--white);
+      outline: none; transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-form-submit {
+      background: var(--blue); color: white; border: none; border-radius: 10px;
+      padding: 0.9rem 2rem; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: background 0.15s; align-self: flex-start;
+    }
+    .btn-form-submit:hover { background: var(--blue-dark); }
+    .form-success {
+      display: none; background: #f0fdf4; border: 1.5px solid #86efac;
+      border-radius: 12px; padding: 1rem 1.25rem;
+      font-size: 0.9rem; color: #16a34a; font-weight: 600;
+    }
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .btn-form-submit { width: 100%; }
+    }
+
+    /* ── QUIZ ── */
+    .quiz-wrap {
+      max-width: 640px; margin: 0 auto;
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 20px; padding: 2.5rem; box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+    }
+    .quiz-step { display: none; }
+    .quiz-step.active { display: block; }
+    .quiz-q { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem; line-height: 1.4; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 0.75rem; }
+    .quiz-opt {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 1.2rem; border: 1.5px solid var(--border); border-radius: 12px;
+      cursor: pointer; transition: all 0.18s; font-size: 0.92rem; font-weight: 500; color: var(--text);
+      background: var(--white);
+    }
+    .quiz-opt:hover { border-color: var(--blue); background: var(--bg-light); color: var(--blue); }
+    .quiz-opt .qo-icon { flex-shrink: 0; width: 22px; height: 22px; color: var(--blue); }
+    .quiz-opt .qo-icon svg { width: 22px; height: 22px; display: block; }
+    .quiz-progress {
+      display: flex; gap: 0.4rem; margin-bottom: 2rem;
+    }
+    .quiz-dot {
+      flex: 1; height: 4px; border-radius: 2px; background: var(--border); transition: background 0.3s;
+    }
+    .quiz-dot.done { background: var(--blue); }
+    .quiz-result { text-align: center; }
+    .quiz-result-badge {
+      display: inline-block; background: var(--bg-light); border: 2px solid var(--blue);
+      border-radius: 12px; padding: 0.4rem 1.1rem; font-size: 0.75rem; font-weight: 700;
+      color: var(--blue); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .quiz-result h3 { font-size: 1.5rem; font-weight: 900; color: var(--text); margin-bottom: 0.5rem; }
+    .quiz-result .quiz-speed { font-size: 2.5rem; font-weight: 900; color: var(--blue); letter-spacing: -0.05em; margin-bottom: 0.3rem; }
+    .quiz-result .quiz-price { font-size: 1rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .quiz-result .quiz-price strong { font-size: 1.4rem; color: var(--text); font-weight: 800; }
+    .quiz-btn-primary {
+      display: inline-block; background: var(--orange); color: white; border: none; border-radius: 10px;
+      padding: 0.85rem 2rem; font-size: 0.95rem; font-weight: 700; cursor: pointer;
+      font-family: inherit; text-decoration: none; transition: background 0.15s; margin-bottom: 0.75rem;
+    }
+    .quiz-btn-primary:hover { background: #d45e02; }
+    .quiz-btn-reset {
+      display: block; margin: 0.5rem auto 0; background: none; border: none;
+      color: var(--muted); font-size: 0.82rem; cursor: pointer; font-family: inherit;
+      text-decoration: underline;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item {
+      background: var(--white); border: 1.5px solid var(--border);
+      border-radius: 14px; overflow: hidden; transition: border-color 0.2s;
+    }
+    .faq-item:hover { border-color: var(--blue); }
+    .faq-item summary {
+      padding: 1.1rem 1.4rem; font-size: 0.95rem; font-weight: 600;
+      color: var(--text); cursor: pointer; list-style: none;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-chevron {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--bg-light); display: flex; align-items: center; justify-content: center;
+      color: var(--blue); font-size: 0.7rem; transition: transform 0.25s;
+    }
+    .faq-item[open] .faq-chevron { transform: rotate(180deg); background: var(--blue); color: white; }
+    .faq-item[open] { border-color: var(--blue); }
+    .faq-body { padding: 0 1.4rem 1.2rem; font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+
+
+    /* ── CALCULADORA ── */
+    .calc-sec { background: linear-gradient(135deg, var(--bg-light) 0%, #e8f0fb 100%); }
+    .calc-wrap {
+      max-width: 720px; margin: 0 auto;
+      background: white; border-radius: 20px; padding: 2.5rem;
+      box-shadow: 0 8px 40px rgba(0,80,164,0.10);
+    }
+    .calc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+    .calc-group label {
+      display: block; font-size: 0.78rem; font-weight: 700;
+      color: var(--muted); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .calc-input {
+      width: 100%; padding: 0.8rem 1rem; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 0.95rem; font-family: inherit;
+      color: var(--text); background: var(--neutral); transition: border-color 0.15s;
+      outline: none;
+    }
+    .calc-input:focus { border-color: var(--blue); background: white; }
+    .calc-btn {
+      width: 100%; padding: 0.9rem; background: var(--blue); color: white;
+      border: none; border-radius: 12px; font-size: 1rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .calc-btn:hover { background: var(--blue-dark); }
+    .calc-result {
+      margin-top: 1.75rem; display: none;
+      background: var(--neutral); border-radius: 14px; padding: 1.5rem;
+      border-left: 4px solid var(--blue);
+    }
+    .calc-result.show { display: block; animation: fadeUp 0.4s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    .cr-title { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1rem; }
+    .cr-plan { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1rem; }
+    .cr-plan-name { font-size: 1.2rem; font-weight: 800; color: var(--blue); }
+    .cr-speed { background: var(--bg-light); color: var(--blue); border-radius: 50px; padding: 0.25rem 0.85rem; font-size: 0.8rem; font-weight: 700; }
+    .cr-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
+    .cr-item { background: white; border-radius: 10px; padding: 0.85rem 1rem; text-align: center; }
+    .cr-item-val { font-size: 1.3rem; font-weight: 800; }
+    .cr-item-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+    .cr-item.atual .cr-item-val { color: var(--muted); }
+    .cr-item.rapeedo .cr-item-val { color: #16a34a; }
+    .cr-saving { background: #dcfce7; border-radius: 10px; padding: 0.85rem 1rem; text-align: center; margin-bottom: 1.25rem; }
+    .cr-saving strong { color: #15803d; font-size: 1rem; }
+    .cr-saving-neg { background: #fef9c3; }
+    .cr-saving-neg strong { color: #92400e; }
+    .cr-wa {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: #25D366; color: white; border-radius: 10px;
+      padding: 0.75rem; font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .cr-wa:hover { background: #1da851; }
+    @media (max-width: 600px) {
+      .calc-row { grid-template-columns: 1fr; }
+      .cr-comparison { grid-template-columns: 1fr; }
+    }
+
+    /* ── COMPARATIVO ── */
+    .compare { background: var(--blue-dark); }
+    .compare .sec-head h2 { color: white; }
+    .compare .sec-head p  { color: rgba(255,255,255,0.65); }
+    .compare .tag { background: rgba(255,255,255,0.12); color: white; }
+    .compare-table {
+      width: 100%; border-collapse: collapse; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    }
+    .compare-table th {
+      padding: 1rem 1.25rem; font-size: 0.85rem; font-weight: 700; text-align: center;
+    }
+    .compare-table th:first-child { text-align: left; color: rgba(255,255,255,0.45); background: rgba(0,0,0,0.2); }
+    .compare-table th.col-rapeedo { background: var(--blue); color: white; font-size: 1rem; }
+    .compare-table th.col-other   { background: rgba(0,0,0,0.3); color: rgba(255,255,255,0.4); }
+    .compare-table td {
+      padding: 0.85rem 1.25rem; font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.06); text-align: center;
+    }
+    .compare-table td:first-child { text-align: left; color: rgba(255,255,255,0.82); font-weight: 500; background: rgba(0,0,0,0.15); }
+    .compare-table td.col-rapeedo { background: rgba(0,80,164,0.3); }
+    .compare-table td.col-other   { background: rgba(0,0,0,0.2); }
+    .compare-table tr:hover td { filter: brightness(1.1); }
+    .cmp-yes     { color: #4ade80; font-weight: 800; font-size: 1rem; }
+    .cmp-no      { color: rgba(255,255,255,0.18); font-size: 1rem; }
+    .cmp-partial { color: #fbbf24; font-size: 0.78rem; font-weight: 600; }
+    .compare-note { text-align: center; margin-top: 1.25rem; font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+    @media (max-width: 768px) {
+      .compare-table th, .compare-table td { padding: 0.6rem 0.6rem; font-size: 0.74rem; }
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--blue-dark);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 4rem 1.5rem 0;
+    }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.6fr 1fr 1.2fr;
+      gap: 3rem; padding-bottom: 3rem;
+    }
+    /* Coluna 1 — marca */
+    .footer-brand {}
+    .footer-logo-wrap {
+      display: inline-flex; align-items: center; text-decoration: none;
+      margin-bottom: 1.25rem;
+    }
+    .footer-logo-wrap img { height: 52px; width: auto; display: block; }
+    .footer-headline {
+      font-size: 1.25rem; font-weight: 900;
+      color: #ffffff; letter-spacing: -0.02em; line-height: 1.15;
+      margin-bottom: 0.45rem;
+    }
+    .footer-headline em { font-style: normal; color: var(--orange); }
+    .footer-sub {
+      font-size: 0.875rem; color: rgba(255,255,255,0.45);
+      line-height: 1.6; margin-bottom: 1.5rem;
+    }
+    .footer-socials { display: flex; gap: 0.5rem; }
+    .soc {
+      width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; text-decoration: none; color: rgba(255,255,255,0.9); transition: all 0.15s;
+    }
+    .soc:hover { background: var(--orange); color: white; border-color: var(--orange); }
+
+    /* Colunas 2 e 3 — links e contato */
+    .footer-col-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-bottom: 1.1rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a {
+      color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: white; }
+    .footer-contact-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .footer-contact-item {
+      display: flex; gap: 0.65rem; align-items: flex-start;
+    }
+    .footer-contact-item svg { flex-shrink: 0; margin-top: 2px; opacity: 0.85; color: #93c5fd; }
+    .footer-contact-item span {
+      font-size: 0.84rem; color: rgba(255,255,255,0.6); line-height: 1.5;
+    }
+    .footer-contact-item a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.15s; }
+    .footer-contact-item a:hover { color: white; }
+
+    /* Barra inferior */
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 1.2rem 0; text-align: center;
+    }
+    .footer-copy {
+      font-size: 0.72rem; color: rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ── LGPD ── */
+    .lgpd-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      background: #0f172a; border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 1rem 1.5rem; display: flex; align-items: center;
+      gap: 1.5rem; flex-wrap: wrap; justify-content: space-between;
+      transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .lgpd-bar.show { transform: translateY(0); }
+    .lgpd-text { font-size: 0.8rem; color: rgba(255,255,255,0.65); line-height: 1.6; flex: 1; min-width: 220px; }
+    .lgpd-text a { color: var(--orange); text-decoration: none; }
+    .lgpd-text a:hover { text-decoration: underline; }
+    .lgpd-btns { display: flex; gap: 0.6rem; flex-shrink: 0; }
+    .lgpd-accept {
+      background: var(--blue); color: white; border: none; border-radius: 8px;
+      padding: 0.55rem 1.2rem; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: background 0.15s;
+    }
+    .lgpd-accept:hover { background: var(--blue-dark); }
+    .lgpd-reject {
+      background: transparent; color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+      padding: 0.55rem 1rem; font-size: 0.82rem; cursor: pointer;
+      font-family: inherit; transition: all 0.15s;
+    }
+    .lgpd-reject:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+    /* WA FLOAT */
+    .wa-float {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+      width: 52px; height: 52px; border-radius: 50%; background: #25D366;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; box-shadow: 0 4px 16px rgba(37,211,102,0.35); transition: transform 0.2s;
+      text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* ── COMO FUNCIONA ── */
+    .how-it-works { background: var(--white); }
+    .how-grid {
+      display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 1rem; align-items: center; margin-top: 1rem;
+    }
+    .how-step {
+      background: var(--neutral); border-radius: 16px; padding: 2rem 1.5rem;
+      text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.85rem;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .how-step:hover { box-shadow: 0 8px 28px rgba(0,80,164,0.12); transform: translateY(-4px); }
+    .how-num {
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em;
+      color: var(--orange); background: #fff3e8; border-radius: 50px;
+      padding: 0.2rem 0.65rem;
+    }
+    .how-icon {
+      width: 56px; height: 56px; border-radius: 14px; background: var(--bg-light);
+      display: flex; align-items: center; justify-content: center; color: var(--blue);
+    }
+    .how-icon svg { width: 28px; height: 28px; }
+    .how-step .how-icon.has-photo { width: 100%; height: 120px; padding: 0; background: none; }
+    .how-step h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .how-step p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+    .how-arrow { color: var(--border); }
+    .how-arrow svg { width: 28px; height: 28px; }
+
+    /* ── DEPOIMENTOS ── */
+    .testimonials { background: var(--neutral); }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; }
+    .testi-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.75rem; display: flex; flex-direction: column; gap: 1rem;
+      transition: box-shadow 0.2s;
+    }
+    .testi-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+    .testi-header { display: flex; align-items: center; justify-content: space-between; }
+    .testi-stars { color: #f59e0b; font-size: 1rem; letter-spacing: 2px; }
+    .google-icon { flex-shrink: 0; opacity: 0.85; }
+    .testi-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.7; flex: 1; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--bg-light);
+      color: var(--blue); font-size: 0.78rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .testi-author strong { display: block; font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .testi-author span { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── SKELETON ── */
+    @keyframes shimmer {
+      0% { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .skeleton-overlay {
+      position: absolute; inset: 0; border-radius: 16px; z-index: 5;
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 800px 100%;
+      animation: shimmer 1.2s infinite;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .plans-pane { position: relative; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.65s cubic-bezier(0.4,0,0.2,1), transform 0.65s cubic-bezier(0.4,0,0.2,1);
+    }
+    .reveal.from-left  { transform: translateX(-40px); }
+    .reveal.from-right { transform: translateX(40px); }
+    .reveal.from-up    { transform: translateY(-24px); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    .reveal.delay-1 { transition-delay: 0.1s; }
+    .reveal.delay-2 { transition-delay: 0.2s; }
+    .reveal.delay-3 { transition-delay: 0.3s; }
+    .reveal.delay-4 { transition-delay: 0.4s; }
+    .reveal.delay-5 { transition-delay: 0.5s; }
+
+    /* ── NETWORK STATUS ── */
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.28rem 0.75rem; border-radius: 50px;
+      font-size: 0.72rem; font-weight: 700; cursor: pointer;
+      border: 1px solid var(--border); font-family: inherit; transition: all 0.2s;
+      background: var(--neutral); color: var(--text);
+    }
+    .status-badge:hover { background: var(--bg-light); border-color: var(--blue); color: var(--blue); }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+    }
+    .status-dot.green  { background: #22c55e; box-shadow: 0 0 0 0 rgba(34,197,94,0.5); animation: pulse-green 2s infinite; }
+    .status-dot.yellow { background: #f59e0b; box-shadow: 0 0 0 0 rgba(245,158,11,0.5); animation: pulse-yellow 2s infinite; }
+    .status-dot.red    { background: #ef4444; box-shadow: 0 0 0 0 rgba(239,68,68,0.5);  animation: pulse-red 2s infinite; }
+    @keyframes pulse-green  { 0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}  50%{box-shadow:0 0 0 5px rgba(34,197,94,0)} }
+    @keyframes pulse-yellow { 0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.5)} 50%{box-shadow:0 0 0 5px rgba(245,158,11,0)} }
+    @keyframes pulse-red    { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.5)}  50%{box-shadow:0 0 0 5px rgba(239,68,68,0)} }
+
+    /* Status Modal */
+    .status-modal-overlay {
+      position: fixed; inset: 0; z-index: 1100;
+      background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .status-modal-overlay.open { opacity: 1; pointer-events: all; }
+    .status-modal {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%,-60%) scale(0.95);
+      z-index: 1101; background: white; border-radius: 20px;
+      width: min(480px, 94vw); padding: 2rem;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .status-modal.open { opacity: 1; pointer-events: all; transform: translate(-50%,-50%) scale(1); }
+    .status-modal-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; }
+    .status-modal-head h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+    .status-modal-head p  { font-size: 0.82rem; color: var(--muted); margin-top: 0.2rem; }
+    .status-modal-close { background: var(--neutral); border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+    .status-overall {
+      display: flex; align-items: center; gap: 0.85rem;
+      background: var(--neutral); border-radius: 12px; padding: 1rem 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .status-overall-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+    .status-overall-dot.green  { background: #22c55e; }
+    .status-overall-dot.yellow { background: #f59e0b; }
+    .status-overall-dot.red    { background: #ef4444; }
+    .status-overall strong { font-size: 0.95rem; font-weight: 700; display: block; }
+    .status-overall span   { font-size: 0.8rem; color: var(--muted); }
+    .status-services { display: flex; flex-direction: column; gap: 0.6rem; }
+    .status-svc {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px;
+      font-size: 0.85rem;
+    }
+    .status-svc-name { color: var(--text); font-weight: 500; }
+    .status-svc-tag {
+      font-size: 0.7rem; font-weight: 700; border-radius: 50px;
+      padding: 0.2rem 0.65rem;
+    }
+    .status-svc-tag.green  { background: #dcfce7; color: #15803d; }
+    .status-svc-tag.yellow { background: #fef9c3; color: #92400e; }
+    .status-svc-tag.red    { background: #fee2e2; color: #b91c1c; }
+    .status-updated { font-size: 0.73rem; color: var(--muted); text-align: right; margin-top: 1.1rem; }
+
+    /* ── BACK TO TOP ── */
+    .back-top {
+      position: fixed; bottom: 2rem; left: 1.5rem; z-index: 250;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--blue); color: white; border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 14px rgba(0,80,164,0.35);
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, background 0.15s;
+      pointer-events: none;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-top:hover { background: var(--blue-dark); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .sol-grid { grid-template-columns: repeat(2,1fr); }
+      .authority-inner { grid-template-columns: repeat(2,1fr); }
+      .auth-item:nth-child(2) { border-right: none; }
+      .auth-item:nth-child(3) { border-right: 1px solid var(--border); }
+      .auth-item:nth-child(3), .auth-item:nth-child(4) { border-top: 1px solid var(--border); }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      .coverage-layout { grid-template-columns: 1fr; }
+      .city-list-wrap { max-height: 250px; }
+      /* footer simplificado - sem grid */
+      .who-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 1024px) {
+      .how-grid { grid-template-columns: 1fr; }
+      .how-arrow { display: none; }
+    }
+    .btn-hamburger {
+      display: none; width: 36px; height: 36px; border-radius: 8px;
+      border: 1px solid var(--border); background: transparent;
+      cursor: pointer; align-items: center; justify-content: center;
+      color: var(--muted); flex-direction: column; gap: 5px; padding: 0 8px;
+      transition: all 0.15s;
+    }
+    .btn-hamburger:hover { background: var(--neutral); }
+    .btn-hamburger span {
+      display: block; width: 100%; height: 2px;
+      background: currentColor; border-radius: 2px;
+      transition: all 0.25s;
+    }
+    .btn-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .btn-hamburger.open span:nth-child(2) { opacity: 0; }
+    .btn-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: fixed; inset: 0; top: 68px;
+        background: var(--white); z-index: 99;
+        padding: 2rem 1.5rem; gap: 0.25rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        overflow-y: auto;
+      }
+      .nav-links.open > li { width: 100%; }
+      .nav-links.open a, .nav-links.open .nav-btn {
+        font-size: 1.05rem; padding: 0.85rem 1rem;
+        border-radius: 10px; width: 100%; justify-content: flex-start;
+      }
+      .nav-links.open .dropdown-menu {
+        display: block; position: static; box-shadow: none;
+        border: none; background: var(--neutral); border-radius: 10px;
+        padding: 0.25rem 0.5rem; margin-top: 0.25rem;
+      }
+      .btn-hamburger { display: flex; }
+      .status-badge { display: none; }
+      /* Soluções — link direto sem dropdown no mobile */
+      .nav-links.open .dropdown-menu { display: none !important; }
+      .nav-sol-mobile { display: block !important; }
+      /* Grade soluções 2x2 */
+      .sol-grid { grid-template-columns: repeat(2,1fr); gap: 0.85rem; }
+      /* Seções */
+      .section { padding: 2.5rem 1.1rem; }
+      .why-grid { grid-template-columns: 1fr; }
+      /* Planos — swipe horizontal */
+      .plans-pane.active {
+        display: flex !important;
+        overflow-x: auto; scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem; padding-bottom: 0.75rem;
+        scrollbar-width: none; grid-template-columns: unset;
+      }
+      .plans-pane.active::-webkit-scrollbar { display: none; }
+      .plan-card { min-width: 82vw; scroll-snap-align: center; flex-shrink: 0; }
+      /* Depoimentos — swipe horizontal */
+      .testi-grid {
+        display: flex !important;
+        overflow-x: auto; overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem; padding-bottom: 0.75rem;
+        grid-template-columns: unset; scrollbar-width: none;
+        align-items: stretch;
+      }
+      .testi-grid::-webkit-scrollbar { display: none; }
+      .testi-card {
+        min-width: 72vw; max-width: 72vw;
+        scroll-snap-align: center; flex-shrink: 0;
+        padding: 1rem; border-radius: 10px;
+        height: auto; overflow: visible;
+        display: flex; flex-direction: column;
+      }
+      .testi-card p { font-size: 0.78rem; line-height: 1.5; overflow: visible; white-space: normal; word-break: break-word; }
+      .testi-author { gap: 0.4rem; margin-top: auto; padding-top: 0.5rem; }
+      /* Suporte — swipe horizontal */
+      .support-grid {
+        display: flex !important;
+        overflow-x: auto; overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1rem; padding-bottom: 0.75rem;
+        scrollbar-width: none; grid-template-columns: unset;
+        align-items: stretch;
+      }
+      .support-grid::-webkit-scrollbar { display: none; }
+      .support-card {
+        min-width: 72vw; max-width: 72vw;
+        scroll-snap-align: center; flex-shrink: 0;
+        padding: 1rem; border-radius: 10px;
+        height: auto; overflow: visible;
+        display: flex; flex-direction: column;
+      }
+      .sup-contact { margin-top: auto; padding-top: 0.5rem; }
+      /* Barra de navegação inferior */
+      body { padding-bottom: 62px; }
+      .side-tabs {
+        position: fixed; bottom: 0; left: 0; right: 0;
+        width: 100%; flex-direction: row;
+        border-radius: 0; height: 62px;
+        box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+        z-index: 400;
+      }
+      .side-tab {
+        flex: 1; max-width: unset; border-radius: 0;
+        font-size: 0.6rem; height: 62px;
+        padding: 0.4rem 0.25rem; gap: 0.2rem;
+        flex-direction: column; justify-content: center;
+      }
+      .side-tab:hover { max-width: unset; }
+      .side-tab svg { width: 20px; height: 20px; }
+      /* Posicionamento acima da nav bar */
+      .wa-float { bottom: 74px; }
+      .back-top { bottom: 74px; }
+      .lgpd-bar { bottom: 62px !important; z-index: 390 !important; }
+      /* Stats */
+      .stats-inner { grid-template-columns: repeat(2,1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
+      .stat-item:nth-child(3), .stat-item:last-child { border-bottom: none; }
+      /* Ann bar */
+      .ann-bar { font-size: 0.7rem; padding: 0.5rem 2.5rem 0.5rem 1rem; flex-wrap: wrap; gap: 0.4rem; }
+      /* LGPD */
+      .lgpd-bar { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+      .lgpd-btns { width: 100%; justify-content: flex-end; }
+      /* CTA final */
+      .final-cta { padding: 3rem 1.25rem; }
+      .cta-grid { flex-direction: column; align-items: stretch; gap: 0.65rem; }
+      /* Rodapé mobile — Navegue e Contato lado a lado */
+      .footer { padding: 2.5rem 1.25rem 0; }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 0; }
+      .footer-brand {
+        grid-column: 1 / -1; display: flex; flex-direction: column;
+        align-items: center; text-align: center;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        margin-bottom: 1.5rem;
+      }
+      .footer-inner > div:nth-child(2) { padding: 0 1rem 1.5rem 0; border-right: 1px solid rgba(255,255,255,0.08); }
+      .footer-inner > div:nth-child(3) { padding: 0 0 1.5rem 1rem; }
+      .footer-headline { font-size: 1.1rem; }
+      .footer-socials { justify-content: center; }
+      .footer-col-title { font-size: 0.62rem; }
+      .footer-links a { font-size: 0.78rem; }
+      .footer-contact-item span, .footer-contact-item a { font-size: 0.75rem; }
+      .footer-copy { font-size: 0.68rem; }
+    }
+  </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "InternetCafe",
+  "name": "Rapeedo",
+  "description": "Provedor de internet fibra óptica no Vale do Jequitinhonha e Sudoeste da Bahia",
+  "url": "https://rapeedo.com.br",
+  "telephone": "+55-33-3038-1955",
+  "email": "contato@rapeedo.com.br",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rua Francisco Neiva, 87",
+    "addressLocality": "Medina",
+    "addressRegion": "MG",
+    "addressCountry": "BR"
+  },
+  "sameAs": [
+    "https://instagram.com/rapeedointernet",
+    "https://facebook.com/rapeedo"
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ABAS LATERAIS -->
+<div class="side-tabs">
+  <button class="side-tab side-tab-contact" onclick="openContactPanel()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Fale Conosco
+  </button>
+  <a class="side-tab side-tab-speed" href="https://teste.rapeedo.com.br/" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    Teste de Velocidade
+  </a>
+  <button class="side-tab side-tab-quiz" onclick="openQuizModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Qual é o Meu Plano?
+  </button>
+</div>
+
+<!-- PAINEL DE CONTATO -->
+<div class="cp-overlay" id="cpOverlay" onclick="closeContactPanel()"></div>
+<div class="contact-panel" id="contactPanel">
+  <div class="cp-head">
+    <h3>Fale com a Rapeedo</h3>
+    <button class="cp-close" onclick="closeContactPanel()">✕</button>
+  </div>
+  <div class="cp-body">
+    <a class="cp-option" href="https://wa.me/553330381955?text=Olá%2C%20gostaria%20de%20falar%20com%20a%20Rapeedo" target="_blank">
+      <div class="cp-opt-icon" style="background:#dcfce7;">
+        <svg viewBox="0 0 24 24" fill="#16a34a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+      </div>
+      <div class="cp-opt-label"><strong>WhatsApp</strong><span>(33) 3038-1955 · Resposta rápida</span></div>
+    </a>
+    <a class="cp-option" href="tel:08002760176">
+      <div class="cp-opt-icon" style="background:#dbeafe;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0050A4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14v3l-.08-.08z"/></svg>
+      </div>
+      <div class="cp-opt-label"><strong>Telefone</strong><span>0800 276 0176 · Gratuito</span></div>
+    </a>
+    <a class="cp-option" href="mailto:contato@rapeedo.com.br">
+      <div class="cp-opt-icon" style="background:#fef3c7;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div class="cp-opt-label"><strong>E-mail</strong><span>contato@rapeedo.com.br</span></div>
+    </a>
+    <a class="cp-option" href="#" onclick="closeContactPanel();openFormModal();return false;">
+      <div class="cp-opt-icon" style="background:#f3e8ff;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div class="cp-opt-label"><strong>Formulário</strong><span>Preencha e enviamos uma proposta</span></div>
+    </a>
+    <a class="cp-option" href="https://sistema.rapeedo.com.br" target="_blank">
+      <div class="cp-opt-icon" style="background:#fce7f3;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+      </div>
+      <div class="cp-opt-label"><strong>Área do Cliente</strong><span>Boletos, consumo e suporte</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <button class="search-close" onclick="closeSearch()">✕</button>
+    <input type="text" placeholder="Buscar planos, cidades, suporte..." autofocus id="searchInput" />
+    <div class="search-hints">
+      <span class="search-hint" onclick="scrollTo('planos')">Planos Residencial</span>
+      <span class="search-hint" onclick="scrollTo('cobertura')">Verificar cobertura</span>
+      <span class="search-hint" onclick="scrollTo('suporte')">Horário de suporte</span>
+      <span class="search-hint" onclick="scrollTo('quem-somos')">Quem somos</span>
+      <span class="search-hint" onclick="scrollTo('solucoes')">Rapeedo Gamer</span>
+      <span class="search-hint" onclick="scrollTo('solucoes')">Empresarial</span>
+    </div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar" id="annBar">
+  <span class="ann-tag">Oferta especial</span>
+  <span class="ann-text">Assine agora e ganhe <strong>instalação gratuita</strong> na sua cidade</span>
+  <span class="ann-sep">|</span>
+  <a href="https://wa.me/553330381955?text=Quero%20aproveitar%20a%20instala%C3%A7%C3%A3o%20gr%C3%A1tis" target="_blank">Falar com consultor</a>
+  <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'">✕</button>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="logo" href="#">
+      <img src="img/logo-rapeedo.png" alt="Rapeedo" style="height:44px;width:auto;display:block;" />
+    </a>
+
+    <div class="nav-right">
+    <ul class="nav-links">
+      <li>
+        <button class="nav-btn">Soluções <span class="caret">▾</span></button>
+        <div class="dropdown-menu">
+          <a href="#solucoes">
+            <div class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+            <div class="d-text">Residencial <small>Para sua família</small></div>
+          </a>
+          <a href="#solucoes">
+            <div class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/><path d="M6.5 18.5h11A2.5 2.5 0 0020 16V10a8 8 0 00-16 0v6a2.5 2.5 0 002.5 2.5z"/></svg></div>
+            <div class="d-text">Gamer <small>IP público + ExitLag</small></div>
+          </a>
+          <a href="#solucoes">
+            <div class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+            <div class="d-text">Empresarial <small>SLA garantido</small></div>
+          </a>
+          <a href="#solucoes">
+            <div class="d-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <div class="d-text">Smart <small>Casa conectada e segura</small></div>
+          </a>
+        </div>
+      </li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#cobertura">Cobertura</a></li>
+
+      <li><a href="#quem-somos">Quem somos</a></li>
+      <li><a href="#suporte">Ajuda</a></li>
+    </ul>
+
+    <div class="nav-end">
+      <button class="status-badge" id="statusBadge" onclick="openStatusModal()" title="Status da rede">
+        <span class="status-dot green" id="statusDot"></span>
+        <span id="statusText">Rede operacional</span>
+      </button>
+      <button class="btn-hamburger" id="btnHamburger" onclick="toggleMenu()" title="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <button class="btn-dark" onclick="toggleDark()" id="btnDark" title="Alternar modo escuro">
+        <svg id="iconDark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="btn-search" onclick="openSearch()" title="Pesquisar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></button>
+      <a href="https://sistema.rapeedo.com.br" class="btn-area" target="_blank">Área do Cliente</a>
+    </div>
+    </div><!-- /nav-right -->
+  </div>
+</nav>
+
+<!-- CAROUSEL -->
+<section class="carousel" id="carousel">
+  <div class="carousel-track" id="carouselTrack">
+
+    <!-- SLIDE 1: Residencial -->
+    <div class="carousel-slide slide-residencial">
+      <div class="slide-content">
+        <div class="slide-badge">Rapeedo Residencial</div>
+        <h2>Conexão que une <span>toda a família</span></h2>
+        <p>Fibra óptica de verdade para streaming, home office e videochamadas — sem travar, sem surpresas na fatura.</p>
+        <div class="slide-btns">
+          <a class="btn-slide-primary" href="#planos" onclick="setTab('residencial')">Ver planos</a>
+          <a class="btn-slide-ghost" href="https://wa.me/553330381955?text=Quero%20saber%20sobre%20o%20Rapeedo%20Residencial" target="_blank">Falar com a equipe</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Gamer -->
+    <div class="carousel-slide slide-gamer">
+      <div class="slide-content">
+        <div class="slide-badge">Rapeedo Gamer</div>
+        <h2>Performance <span>sem limite</span> para jogar</h2>
+        <p>IP público dedicado, ExitLag incluso e prioridade de tráfego. A rede que faz diferença em cada partida.</p>
+        <div class="slide-btns">
+          <a class="btn-slide-primary" href="#planos" onclick="setTab('gamer')">Ver planos Gamer</a>
+          <a class="btn-slide-ghost" href="https://wa.me/553330381955?text=Quero%20saber%20sobre%20o%20Rapeedo%20Gamer" target="_blank">Falar com a equipe</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Empresarial -->
+    <div class="carousel-slide slide-empresarial">
+      <div class="slide-content">
+        <div class="slide-badge">Rapeedo Empresarial</div>
+        <h2>Infraestrutura que <span>não para</span> sua operação</h2>
+        <p>SLA contratual, IP fixo dedicado e suporte técnico local. Sua empresa conectada com segurança e estabilidade.</p>
+        <div class="slide-btns">
+          <a class="btn-slide-primary" href="https://wa.me/553330381955?text=Preciso%20de%20internet%20para%20minha%20empresa" target="_blank">Falar com consultor</a>
+          <a class="btn-slide-ghost" href="#planos" onclick="setTab('empresarial')">Ver planos</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Smart -->
+    <div class="carousel-slide slide-smart">
+      <div class="slide-content">
+        <div class="slide-badge">Rapeedo Smart</div>
+        <h2>Casa conectada, <span>segura</span> e sob controle</h2>
+        <p>Câmeras instaladas pela Rapeedo, gravação em nuvem e automação residencial — tudo pelo app Olli.</p>
+        <div class="slide-btns">
+          <a class="btn-slide-primary" href="#planos" onclick="setTab('smart')">Conheça o Smart</a>
+          <a class="btn-slide-ghost" href="https://wa.me/553330381955?text=Quero%20saber%20sobre%20o%20Rapeedo%20Smart" target="_blank">Falar com a equipe</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /track -->
+
+  <!-- Controles -->
+  <button class="carousel-btn prev" onclick="carouselMove(-1)" aria-label="Anterior">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="carousel-btn next" onclick="carouselMove(1)" aria-label="Próximo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Dots -->
+  <div class="carousel-dots" id="carouselDots">
+    <button class="dot active" onclick="carouselGo(0)"></button>
+    <button class="dot" onclick="carouselGo(1)"></button>
+    <button class="dot" onclick="carouselGo(2)"></button>
+    <button class="dot" onclick="carouselGo(3)"></button>
+  </div>
+
+  <!-- Barra de progresso -->
+  <div class="carousel-progress" id="carouselProgress"></div>
+</section>
+
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-val" data-target="27" data-suffix="+">0+</div>
+      <div class="stat-lbl">Cidades atendidas</div>
+    </div>
+    <div class="stat-item reveal delay-1">
+      <div class="stat-val" data-target="25" data-suffix="k+">0k+</div>
+      <div class="stat-lbl">Clientes conectados</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="stat-val" data-target="99" data-suffix="%">0%</div>
+      <div class="stat-lbl">Uptime de rede</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="stat-val" data-target="15" data-suffix=" anos">0 anos</div>
+      <div class="stat-lbl">No Vale do Jequitinhonha</div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- SOLUTIONS -->
+<section class="section solutions" id="solucoes">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="tag tag-blue">Soluções Rapeedo</div>
+      <h2>Infraestrutura adaptada para <em>cada necessidade</em></h2>
+      <p>Com a mesma base técnica que sustenta a rede — fibra própria, NOC 24h e equipe local.</p>
+    </div>
+    <div class="sol-grid">
+      <a class="sol-card reveal delay-1" href="#planos" onclick="setTab('residencial')">
+        <div class="sol-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <h3>Rapeedo Residencial</h3>
+        <p>Conexão estável para o dia a dia da sua família. Planos de 500 Mbps a 1 Gbps com streaming incluso.</p>
+        <span class="sol-link">Ver planos</span>
+      </a>
+      <a class="sol-card reveal delay-2" href="#planos" onclick="setTab('gamer')">
+        <div class="sol-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="11" r="1" fill="currentColor"/><circle cx="17" cy="13" r="1" fill="currentColor"/><path d="M6.5 18.5h11A2.5 2.5 0 0020 16V10a8 8 0 00-16 0v6a2.5 2.5 0 002.5 2.5z"/></svg></div>
+        <h3>Rapeedo Gamer</h3>
+        <p>IP público dedicado, ExitLag incluso e prioridade de tráfego. Performance técnica para quem sabe a diferença que a rede faz.</p>
+        <span class="sol-link">Ver planos</span>
+      </a>
+      <a class="sol-card reveal delay-3" href="#planos" onclick="setTab('empresarial')">
+        <div class="sol-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
+        <h3>Rapeedo Empresarial</h3>
+        <p>SLA contratual, IP fixo dedicado e suporte técnico local. Infraestrutura que não para a sua operação.</p>
+        <span class="sol-link">Falar com consultor</span>
+      </a>
+      <a class="sol-card reveal delay-4" href="#planos" onclick="setTab('smart')">
+        <div class="sol-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+        <h3>Rapeedo Smart</h3>
+        <p>Câmeras de segurança instaladas pela Rapeedo, gravação em nuvem e automação residencial pelo app Olli.</p>
+        <span class="sol-link">Saiba mais</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="section how-it-works" id="como-funciona">
+  <div class="sec-inner">
+    <div class="sec-head center">
+      <div class="tag tag-blue">Simples assim</div>
+      <h2>Como funciona a <em>contratação</em></h2>
+      <p>Do primeiro contato à internet funcionando, em poucos passos.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-step reveal delay-1">
+        <div class="how-num">01</div>
+        <div style="position:relative;width:100%;height:120px;border-radius:12px;overflow:hidden;">
+          <img src="img/atendimento-rapeedo.jpg" loading="lazy" alt="Equipe Rapeedo atendendo cliente"
+               style="width:100%;height:100%;object-fit:cover;object-position:center 70%;display:block;" />
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,80,164,0.88) 0%,transparent 100%);padding:0.55rem 0.75rem 0.5rem;display:flex;align-items:center;gap:0.4rem;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;display:inline-block;"></span>
+            <span style="font-size:0.7rem;font-weight:700;color:white;letter-spacing:0.03em;">Time de atendimento online</span>
+          </div>
+        </div>
+        <h3>Escolha seu plano</h3>
+        <p>Veja os planos disponíveis para a sua cidade e entre em contato via WhatsApp ou telefone.</p>
+      </div>
+      <div class="how-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="how-step reveal delay-2">
+        <div class="how-num">02</div>
+        <div class="how-icon" style="width:100%;height:120px;border-radius:12px;overflow:hidden;padding:0;background:none;">
+          <img src="img/tecnico-instalacao.jpg" loading="lazy" alt="Técnico Rapeedo realizando instalação de fibra óptica"
+               style="width:100%;height:100%;object-fit:cover;border-radius:12px;"
+               onerror="this.parentElement.innerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\' width=\'28\' height=\'28\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><rect x=\'3\' y=\'4\' width=\'18\' height=\'18\' rx=\'2\'/><line x1=\'16\' y1=\'2\' x2=\'16\' y2=\'6\'/><line x1=\'8\' y1=\'2\' x2=\'8\' y2=\'6\'/><line x1=\'3\' y1=\'10\' x2=\'21\' y2=\'10\'/></svg>'" />
+        </div>
+        <h3>Agendamos a instalação</h3>
+        <p>Nossa equipe técnica local agenda a visita conforme sua disponibilidade. Sem enrolação.</p>
+      </div>
+      <div class="how-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="how-step reveal delay-3">
+        <div class="how-num">03</div>
+        <div class="how-icon" style="width:100%;height:120px;border-radius:12px;overflow:hidden;padding:0;background:none;">
+          <img src="img/slide-residencial.jpg" alt="Família conectada em casa com internet Rapeedo"
+               style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:12px;" />
+        </div>
+        <h3>Conectado!</h3>
+        <p>Fibra óptica instalada, roteador configurado. Você já está na internet Rapeedo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="section plans" id="planos">
+  <div class="sec-inner">
+    <div class="sec-head center">
+      <div class="tag tag-orange">Planos</div>
+      <h2>Escolha o plano <em>certo para você</em></h2>
+      <p>Fibra óptica de verdade, com velocidade simétrica e sem surpresas na fatura.</p>
+    </div>
+
+    <div class="plan-tabs">
+      <button class="plan-tab active" onclick="setTab('residencial')">Residencial</button>
+      <button class="plan-tab" onclick="setTab('gamer')">Gamer</button>
+      <button class="plan-tab" onclick="setTab('empresarial')">Empresarial</button>
+      <button class="plan-tab" onclick="setTab('smart')">Smart</button>
+    </div>
+
+    <!-- RESIDENCIAL -->
+    <div class="plans-pane active" id="pane-residencial">
+
+      <!-- COMBO ALEGRIA — borda azul -->
+      <div class="plan-card blue-border reveal delay-1">
+        <div class="plan-head">
+          <div class="plan-tier">Combo Alegria</div>
+          <div class="plan-speed">500<span>Mb</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Fibra óptica simétrica</small>
+            <strong>R$99<span style="font-size:1.1rem;font-weight:700;">,90</span></strong><span>/mês</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 500 Mb download e upload</li>
+            <li><span class="ck">✓</span> Fibra óptica própria</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Bit Topics incluso</li>
+              <li>Bit Book incluso</li>
+              <li>Clipsy incluso</li>
+              <li>BitTrainers incluso</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Combo%20Alegria%20500Mb','_blank')">Quero este plano</button>
+        </div>
+      </div>
+
+      <!-- COMBO VIGOR — destaque laranja + Paramount+ -->
+      <div class="plan-card featured reveal delay-2">
+        <div class="plan-pop">Mais popular</div>
+        <div class="plan-head">
+          <div class="plan-tier">Combo Vigor</div>
+          <div class="plan-speed">800<span>Mb</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Fibra óptica simétrica</small>
+            <strong>R$119<span style="font-size:1.1rem;font-weight:700;">,90</span></strong><span>/mês</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 800 Mb download e upload</li>
+            <li><span class="ck">✓</span> Fibra óptica própria</li>
+          </ul>
+          <div class="stream-row">
+            <div class="stream-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14l7-4 4 3 7-4V5l-7 4-4-3z"/></svg>
+              Paramount+
+            </div>
+          </div>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Bit Topics incluso</li>
+              <li>Bit Book incluso</li>
+              <li>Clipsy incluso</li>
+              <li>BitTrainers incluso</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-filled" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Combo%20Vigor%20800Mb','_blank')">Falar com a Rapeedo</button>
+        </div>
+      </div>
+
+      <!-- COMBO SUPREMO — borda azul + Paramount+ e Max -->
+      <div class="plan-card blue-border reveal delay-3">
+        <div class="plan-head">
+          <div class="plan-tier">Combo Supremo</div>
+          <div class="plan-speed">1<span>GIGA</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Fibra óptica simétrica</small>
+            <strong>R$149<span style="font-size:1.1rem;font-weight:700;">,90</span></strong><span>/mês</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 1 Giga download e upload</li>
+            <li><span class="ck">✓</span> Fibra óptica própria</li>
+          </ul>
+          <div class="stream-row">
+            <div class="stream-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5v14l7-4 4 3 7-4V5l-7 4-4-3z"/></svg>
+              Paramount+
+            </div>
+            <div class="stream-badge">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h4l2 5 2-8 2 8 2-5h4"/></svg>
+              Max
+            </div>
+          </div>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Bit Topics incluso</li>
+              <li>Bit Book incluso</li>
+              <li>Clipsy incluso</li>
+              <li>BitTrainers incluso</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Combo%20Supremo%201Giga','_blank')">Quero este plano</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GAMER -->
+    <div class="plans-pane" id="pane-gamer">
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Gamer Essencial</div>
+          <div class="plan-speed">500<span>MBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>500</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 500 Mbps simétrico</li>
+            <li><span class="ck">✓</span> IP público dedicado</li>
+            <li><span class="ck">✓</span> Fibra óptica própria</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Sem compartilhamento de IP</li>
+              <li>1 SVA digital/mês incluso</li>
+              <li>Suporte técnico local</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Gamer%20Essencial','_blank')">Quero este plano</button>
+        </div>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-pop">Mais popular</div>
+        <div class="plan-head">
+          <div class="plan-tier">Gamer Avançado</div>
+          <div class="plan-speed">800<span>MBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>800</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 800 Mbps simétrico</li>
+            <li><span class="ck">✓</span> IP público dedicado</li>
+            <li><span class="ck">✓</span> ExitLag incluso</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Prioridade de tráfego no pico</li>
+              <li>2 SVAs digitais/mês inclusos</li>
+              <li>Suporte técnico local prioritário</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-filled" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Gamer%20Avançado','_blank')">Falar com a Rapeedo</button>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Gamer Completo</div>
+          <div class="plan-speed">1<span>GBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>1.000</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 1 Gbps simétrico</li>
+            <li><span class="ck">✓</span> IP público dedicado</li>
+            <li><span class="ck">✓</span> ExitLag incluso</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>MiniUPS incluso</li>
+              <li>3 SVAs digitais/mês inclusos</li>
+              <li>Prioridade máxima de tráfego</li>
+              <li>Suporte técnico local prioritário</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Gamer%20Completo%201Gbps','_blank')">Quero este plano</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPRESARIAL -->
+    <div class="plans-pane" id="pane-empresarial">
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Empresarial Essencial</div>
+          <div class="plan-speed">300<span>MBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor para sua empresa</small>
+            <strong>300</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 300 Mbps simétrico</li>
+            <li><span class="ck">✓</span> IP fixo dedicado</li>
+            <li><span class="ck">✓</span> Fibra óptica própria</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>SLA — resposta em até 8h úteis</li>
+              <li>1 SVA/mês incluso</li>
+              <li>Suporte técnico local</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-wa" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20preciso%20de%20internet%20para%20minha%20empresa','_blank')">Falar com consultor</button>
+        </div>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-pop">Mais contratado</div>
+        <div class="plan-head">
+          <div class="plan-tier">Empresarial Avançado</div>
+          <div class="plan-speed">600<span>MBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor para sua empresa</small>
+            <strong>600</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 600 Mbps simétrico</li>
+            <li><span class="ck">✓</span> IP fixo dedicado</li>
+            <li><span class="ck">✓</span> Firewall básico incluso</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>SLA — resposta em até 4h úteis</li>
+              <li>2 SVAs/mês inclusos</li>
+              <li>Suporte técnico local prioritário</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-wa" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Empresarial%20Avançado%20600Mbps','_blank')">Falar com consultor</button>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Empresarial Completo</div>
+          <div class="plan-speed">1<span>GBPS</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor para sua empresa</small>
+            <strong>1.000</strong><span>Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 1 Gbps simétrico</li>
+            <li><span class="ck">✓</span> IP fixo dedicado</li>
+            <li><span class="ck">✓</span> Firewall avançado incluso</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>SLA — resposta 2h / 24×7</li>
+              <li>3 SVAs/mês inclusos</li>
+              <li>Monitoramento dedicado</li>
+              <li>Suporte técnico 24h</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-wa" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Empresarial%20Completo%201Gbps','_blank')">Falar com consultor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SMART -->
+    <div class="plans-pane" id="pane-smart">
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Smart Essencial</div>
+          <div class="plan-speed">2<span>CAM</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>2</strong><span>câmeras instaladas</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 2 câmeras instaladas pela Rapeedo</li>
+            <li><span class="ck">✓</span> Gravação em nuvem — 7 dias</li>
+            <li><span class="ck">✓</span> App Olli (iOS e Android)</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Acesso em tempo real pelo app</li>
+              <li>Internet opcional (não inclusa)</li>
+              <li>Instalação feita pela equipe Rapeedo</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Smart%20Essencial','_blank')">Quero este plano</button>
+        </div>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-pop">Mais popular</div>
+        <div class="plan-head">
+          <div class="plan-tier">Smart Avançado</div>
+          <div class="plan-speed">4<span>CAM</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>4</strong><span>câmeras + 500 Mbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 4 câmeras instaladas pela Rapeedo</li>
+            <li><span class="ck">✓</span> Gravação em nuvem — 15 dias</li>
+            <li><span class="ck">✓</span> Internet 500 Mbps inclusa</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Automação básica (iluminação, tomadas)</li>
+              <li>App Olli incluso</li>
+              <li>Instalação feita pela equipe Rapeedo</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-filled" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Smart%20Avançado','_blank')">Falar com a Rapeedo</button>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head">
+          <div class="plan-tier">Smart Completo</div>
+          <div class="plan-speed">6<span>CAM+</span></div>
+        </div>
+        <div class="plan-body">
+          <div class="plan-price">
+            <small>Consulte o valor na sua cidade</small>
+            <strong>6+</strong><span>câmeras + 1 Gbps</span>
+          </div>
+          <ul class="plan-feats">
+            <li><span class="ck">✓</span> 6+ câmeras instaladas pela Rapeedo</li>
+            <li><span class="ck">✓</span> Gravação em nuvem — 30 dias</li>
+            <li><span class="ck">✓</span> Internet 1 Gbps inclusa</li>
+          </ul>
+          <details class="plan-details">
+            <summary>Mais detalhes</summary>
+            <ul>
+              <li>Automação completa + rotinas</li>
+              <li>App Olli incluso</li>
+              <li>Instalação feita pela equipe Rapeedo</li>
+              <li>Suporte técnico dedicado</li>
+            </ul>
+          </details>
+          <button class="btn-plan btn-plan-outline" style="margin-top:1.25rem;" onclick="window.open('https://wa.me/553330381955?text=Olá%2C%20tenho%20interesse%20no%20Smart%20Completo','_blank')">Quero este plano</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section class="section coverage" id="cobertura">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="tag tag-blue">Cobertura</div>
+      <h2>A Rapeedo está em <em>27 cidades</em></h2>
+      <p>Vale do Jequitinhonha e Sudoeste da Bahia — com atendimento local, da sua região. Sem transferência para call center.</p>
+    </div>
+    <div class="coverage-layout">
+      <div>
+        <div id="map"></div>
+        <div class="coverage-note">
+          Não encontrou sua cidade? A Rapeedo está em expansão contínua.
+          <a href="https://wa.me/553330381955?text=Olá%2C%20gostaria%20de%20registrar%20interesse%20para%20minha%20cidade" target="_blank" style="color:var(--orange);font-weight:700;text-decoration:none;"> Registre o interesse da sua cidade →</a>
+        </div>
+      </div>
+      <div>
+        <div class="city-search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="city-search" id="citySearch" type="text" placeholder="Pesquisar cidade..." oninput="filterCities(this.value)" />
+        </div>
+        <div class="city-state-label" id="mg-label">Minas Gerais — 25 cidades</div>
+        <div class="city-list-wrap" id="city-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUPPORT HOURS -->
+<section class="section support" id="suporte">
+  <div class="sec-inner">
+    <div class="sec-head center">
+      <div class="tag tag-orange">Ajuda e Suporte</div>
+      <h2>Estamos <em>aqui para você</em></h2>
+      <p>Equipe técnica local, da sua região. Atendimento humano, sem transferências desnecessárias.</p>
+    </div>
+    <div class="support-grid">
+      <div class="support-card reveal">
+        <div class="sup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>NOC — Monitoramento contínuo</h3>
+        <p>Nossa rede é monitorada 24 horas por dia, 7 dias por semana. Identificamos problemas antes que cheguem até você.</p>
+        <span class="hours-tag">24h / 7 dias</span>
+      </div>
+      <div class="support-card reveal">
+        <div class="sup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>WhatsApp e Atendimento Online</h3>
+        <p>Atendimento via WhatsApp para abertura de chamados, dúvidas sobre planos, 2ª via de boleto e suporte técnico.</p>
+        <span class="hours-tag">Todos os dias: 07h às 22h</span>
+        <div class="sup-contact">
+          <a href="https://wa.me/553330381955" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            (33) 3038-1955
+          </a>
+          <a href="https://wa.me/5508002760176" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            0800 276 0176 (gratuito)
+          </a>
+        </div>
+      </div>
+      <div class="support-card reveal">
+        <div class="sup-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <h3>Telefone e 0800</h3>
+        <p>Ligue gratuitamente para nossa central de atendimento. Equipe preparada para resolver sua situação com agilidade.</p>
+        <span class="hours-tag">Todos os dias: 07h às 22h</span>
+        <div class="sup-contact">
+          <a href="https://wa.me/5508002760176" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+            0800 276 0176 (gratuito)
+          </a>
+          <a href="mailto:contato@rapeedo.com.br">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contato@rapeedo.com.br
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY RAPEEDO -->
+<section class="section why" id="por-que">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <div class="tag tag-blue">Por que Rapeedo</div>
+      <h2>O que sustenta <em>nossa rede</em></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+        <div>
+          <h3>Rede própria — não revendemos terceiros</h3>
+          <p>Controlamos a infraestrutura do início ao fim. Isso significa mais estabilidade, mais velocidade e respostas mais rápidas quando algo precisa ser ajustado.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+        <div>
+          <h3>Suporte local — técnicos da sua região</h3>
+          <p>Nossos técnicos moram na região que atendem. Tempo de resposta em minutos, não horas. Sem call center terceirizado.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6s4-4 11-4 11 4 11 4"/><path d="M5 10s3-3 7-3 7 3 7 3"/><path d="M9 14s1-1 3-1 3 1 3 1"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div>
+          <h3>NOC 24 horas — problemas identificados antes de você</h3>
+          <p>Monitoramento contínuo da rede. Na maioria dos casos, identificamos e corrigimos instabilidades antes do cliente perceber.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <h3>Compromisso regional — aqui desde 2008</h3>
+          <p>Nascemos no Vale do Jequitinhonha e continuamos investindo nele. Visão de longo prazo — não somos uma operadora de passagem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="section testimonials" id="depoimentos">
+  <div class="sec-inner">
+    <div class="sec-head center">
+      <div class="tag tag-orange">O que dizem nossos clientes</div>
+      <h2>Quem usa, <em>recomenda</em></h2>
+    </div>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal">
+        <div class="testi-header">
+          <div class="testi-stars">★★★★★</div>
+          <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        </div>
+        <p>"Empresa de excelência, que trabalha com o que há de melhor no mercado, cem por cento fibra óptica, visando sempre a satisfação do cliente, com uma equipe de profissionais especializados para melhor atendê-los."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">FR</div>
+          <div><strong>Fabio Rodrigues</strong><span>Medina, MG · Google</span></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal delay-1">
+        <div class="testi-header">
+          <div class="testi-stars">★★★★★</div>
+          <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84z"/></svg>
+        </div>
+        <p>"Bom, as experiências que estamos tendo agora são muito boas."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">VX</div>
+          <div><strong>Valdeci Xavier</strong><span>Cachoeira de Pajeú, MG · Google</span></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal delay-2">
+        <div class="testi-header">
+          <div class="testi-stars">★★★★★</div>
+          <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84z"/></svg>
+        </div>
+        <p>"Empresa de Internet com a maior e melhor rede de fibra óptica da região. 👏👏"</p>
+        <div class="testi-author">
+          <div class="testi-avatar">TF</div>
+          <div><strong>Thalles Fernandes</strong><span>Comercinho, MG · Google</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section class="section who" id="quem-somos">
+  <div class="sec-inner">
+    <div class="who-inner">
+      <div class="who-content">
+        <div class="tag tag-orange">Quem somos</div>
+        <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:1.5rem;line-height:1.2;">Construímos a infraestrutura digital do <em style="font-style:normal;color:var(--orange);">Vale do Jequitinhonha.</em></h2>
+        <p>Desde Medina, cidade a cidade, a Rapeedo conecta e estrutura a região onde nascemos e onde continuamos investindo.</p>
+        <p>Fundada formalmente em 2008, a Rapeedo nasceu de soluções informais com rádio e torres entre 2005 e 2008. A virada foi a decisão de construir equipe técnica interna em vez de terceirizar — o que nos deu controle sobre a qualidade da rede.</p>
+        <p>Crescemos de forma orgânica, cruzamos para a Bahia, consolidamos outras operadoras regionais. Hoje somos referência em conectividade no interior de Minas Gerais e no Sudoeste Baiano.</p>
+        <div class="who-principle">
+          Clareza antes da promessa. Estrutura antes da expansão. Cada cidade entra depois que a base técnica está sólida.
+        </div>
+      </div>
+      <div>
+        <div class="who-photo-wrap reveal from-right">
+          <img src="img/equipe-rapeedo.jpg" loading="lazy" alt="Equipe Rapeedo — time completo de profissionais"
+               style="width:100%;border-radius:16px;object-fit:cover;object-position:center top;max-height:280px;display:block;box-shadow:0 12px 36px rgba(0,0,0,0.15);" />
+          <div class="who-photo-caption">Nossa equipe — o time que conecta o Vale do Jequitinhonha</div>
+        </div>
+        <div class="who-facts" style="margin-top:1.25rem;">
+          <div class="who-fact"><strong>2005</strong><span>Origem das operações</span></div>
+          <div class="who-fact"><strong>2008</strong><span>Fundação formal em Medina</span></div>
+          <div class="who-fact"><strong>27</strong><span>Cidades ativas</span></div>
+          <div class="who-fact"><strong>25k+</strong><span>Clientes na rede</span></div>
+        </div>
+        <div style="margin-top:1.25rem;background:var(--neutral);border-radius:12px;padding:1.5rem;">
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.85rem;">Nossos princípios</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.6rem;">
+            <li style="display:flex;gap:0.6rem;font-size:0.84rem;color:var(--muted);align-items:flex-start;"><span style="color:var(--orange);font-weight:800;flex-shrink:0;">→</span>Clareza antes da promessa</li>
+            <li style="display:flex;gap:0.6rem;font-size:0.84rem;color:var(--muted);align-items:flex-start;"><span style="color:var(--orange);font-weight:800;flex-shrink:0;">→</span>Estrutura antes da expansão</li>
+            <li style="display:flex;gap:0.6rem;font-size:0.84rem;color:var(--muted);align-items:flex-start;"><span style="color:var(--orange);font-weight:800;flex-shrink:0;">→</span>Tecnologia com responsabilidade</li>
+            <li style="display:flex;gap:0.6rem;font-size:0.84rem;color:var(--muted);align-items:flex-start;"><span style="color:var(--orange);font-weight:800;flex-shrink:0;">→</span>Compromisso regional permanente</li>
+            <li style="display:flex;gap:0.6rem;font-size:0.84rem;color:var(--muted);align-items:flex-start;"><span style="color:var(--orange);font-weight:800;flex-shrink:0;">→</span>Disciplina operacional</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- MODAL QUIZ -->
+<div class="form-modal-overlay" id="quizModalOverlay" onclick="closeQuizModal()"></div>
+<div class="form-modal" id="quizModal">
+  <div class="form-modal-head">
+    <div>
+      <h3>Qual plano é ideal pra você?</h3>
+      <p>3 perguntas rápidas — descubra agora.</p>
+    </div>
+    <button class="cp-close" onclick="closeQuizModal()">✕</button>
+  </div>
+  <div class="form-modal-body">
+    <div class="quiz-wrap" style="padding:0;box-shadow:none;border:none;">
+      <div class="quiz-progress">
+        <div class="quiz-dot done" id="qd1"></div>
+        <div class="quiz-dot" id="qd2"></div>
+        <div class="quiz-dot" id="qd3"></div>
+      </div>
+      <div class="quiz-step active" id="qs1">
+        <div class="quiz-q">1 de 3 — Como você usa a internet em casa?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizNext(1,1)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875C21.75 4.254 21.246 3.75 20.625 3.75H3.375C2.754 3.75 2.25 4.254 2.25 4.875v11.25c0 .621.504 1.125 1.125 1.125z"/></svg></span>
+            Streaming e redes sociais no dia a dia
+          </button>
+          <button class="quiz-opt" onclick="quizNext(1,2)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.073a2.25 2.25 0 0 1-2.12 2.247 48.4 48.4 0 0 1-14.26 0 2.25 2.25 0 0 1-2.12-2.247V6.741c0-1.135.845-2.098 1.976-2.228A48.4 48.4 0 0 1 12 4.25c1.88 0 3.736.128 5.543.38 1.131.13 1.957 1.093 1.957 2.228v1.822M12 18.75h.008v.008H12v-.008z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75h6M9 15.75h3"/></svg></span>
+            Home office e videochamadas frequentes
+          </button>
+          <button class="quiz-opt" onclick="quizNext(1,3)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0"/></svg></span>
+            Jogos online ou live streaming
+          </button>
+        </div>
+      </div>
+      <div class="quiz-step" id="qs2">
+        <div class="quiz-q">2 de 3 — Quantas pessoas usam a internet ao mesmo tempo?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizNext(2,1)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0zM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg></span>
+            1 a 2 pessoas
+          </button>
+          <button class="quiz-opt" onclick="quizNext(2,2)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0z"/></svg></span>
+            3 a 4 pessoas
+          </button>
+          <button class="quiz-opt" onclick="quizNext(2,3)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg></span>
+            5 ou mais pessoas
+          </button>
+        </div>
+      </div>
+      <div class="quiz-step" id="qs3">
+        <div class="quiz-q">3 de 3 — O que mais importa pra você?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="quizNext(3,1)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0z"/></svg></span>
+            Melhor custo-benefício
+          </button>
+          <button class="quiz-opt" onclick="quizNext(3,2)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg></span>
+            Velocidade máxima
+          </button>
+          <button class="quiz-opt" onclick="quizNext(3,3)">
+            <span class="qo-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"/></svg></span>
+            Streaming incluso (Paramount+, Max)
+          </button>
+        </div>
+      </div>
+      <div class="quiz-step" id="qs-result">
+        <div class="quiz-result">
+          <div class="quiz-result-badge" id="quiz-badge">Recomendado</div>
+          <h3 id="quiz-name">Combo Vigor</h3>
+          <div class="quiz-speed" id="quiz-speed">800 Mb</div>
+          <div class="quiz-price">a partir de <strong id="quiz-price">R$119,90</strong>/mês</div>
+          <a class="quiz-btn-primary" id="quiz-wa" href="#" target="_blank">Quero este plano →</a>
+          <button class="quiz-btn-reset" onclick="quizReset()">↩ Refazer o teste</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORMULÁRIO PLACEHOLDER -->
+<div class="form-modal-overlay" id="calcModalOverlay" onclick="closeCalcModal()" style="display:none"></div>
+<div class="form-modal" id="calcModal" style="display:none">
+  <div class="form-modal-head">
+    <div>
+      <h3>Calcule sua economia</h3>
+      <p>Veja quanto você economiza trocando para a Rapeedo.</p>
+    </div>
+    <button class="cp-close" onclick="closeCalcModal()">✕</button>
+  </div>
+  <div class="form-modal-body" style="padding:1.5rem;">
+    <div class="calc-row">
+      <div class="calc-group">
+        <label>Quanto paga hoje (R$)</label>
+        <input class="calc-input" type="number" id="calcPriceModal" placeholder="Ex: 120" min="0" max="9999" />
+      </div>
+      <div class="calc-group">
+        <label>Velocidade atual</label>
+        <select class="calc-input" id="calcSpeedModal">
+          <option value="">Selecione...</option>
+          <option value="50">Até 50 Mbps</option>
+          <option value="100">100 Mbps</option>
+          <option value="200">200 Mbps</option>
+          <option value="300">300 Mbps</option>
+          <option value="500">500 Mbps</option>
+          <option value="1000">1 Gbps ou mais</option>
+        </select>
+      </div>
+    </div>
+    <button class="calc-btn" onclick="calcularModal()">Calcular →</button>
+    <div class="calc-result" id="calcResultModal">
+      <div class="cr-title">Plano recomendado para você</div>
+      <div class="cr-plan">
+        <span class="cr-plan-name" id="crPlanNameM"></span>
+        <span class="cr-speed" id="crSpeedM"></span>
+      </div>
+      <div class="cr-comparison">
+        <div class="cr-item atual">
+          <div class="cr-item-val" id="crAtualM"></div>
+          <div class="cr-item-lbl">Você paga hoje</div>
+        </div>
+        <div class="cr-item rapeedo">
+          <div class="cr-item-val" id="crRapeedoM"></div>
+          <div class="cr-item-lbl">Plano Rapeedo</div>
+        </div>
+      </div>
+      <div class="cr-saving" id="crSavingM"><strong id="crSavingTextM"></strong></div>
+      <a class="cr-wa" id="crWaM" href="#" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        Quero este plano no WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORMULÁRIO -->
+<div class="form-modal-overlay" id="formModalOverlay" onclick="closeFormModal()"></div>
+<div class="form-modal" id="formModal">
+  <div class="form-modal-head">
+    <div>
+      <h3>Enviar mensagem</h3>
+      <p>Nossa equipe responde em breve.</p>
+    </div>
+    <button class="cp-close" onclick="closeFormModal()">✕</button>
+  </div>
+  <div class="form-modal-body">
+    <form class="contact-form" onsubmit="submitForm(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" placeholder="Seu nome" required />
+        </div>
+        <div class="form-group">
+          <label>Cidade</label>
+          <input type="text" placeholder="Sua cidade" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" placeholder="(33) 9 0000-0000" required />
+        </div>
+        <div class="form-group">
+          <label>Assunto</label>
+          <select>
+            <option value="">Selecione...</option>
+            <option>Quero assinar um plano</option>
+            <option>Dúvida sobre cobertura</option>
+            <option>Suporte técnico</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Mensagem</label>
+        <textarea placeholder="Escreva sua mensagem..."></textarea>
+      </div>
+      <button type="submit" class="btn-form-submit" style="width:100%;">Enviar mensagem</button>
+      <div class="form-success" id="formSuccess">✓ Mensagem enviada! Nossa equipe entrará em contato em breve.</div>
+    </form>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="background:var(--neutral);">
+  <div class="sec-inner">
+    <div class="sec-head center reveal">
+      <div class="tag tag-blue">Dúvidas</div>
+      <h2>Perguntas <em>frequentes</em></h2>
+      <p>Tudo o que você precisa saber antes de assinar.</p>
+    </div>
+    <div class="faq-list">
+
+      <details class="faq-item reveal delay-1">
+        <summary>Qual é a diferença entre fibra óptica e internet a rádio?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">A fibra óptica transmite dados por luz, através de cabos de vidro — é mais estável, mais rápida e não sofre interferência de chuva, antenas próximas ou outros equipamentos. A internet a rádio usa sinal de radiofrequência e pode ser afetada por obstáculos físicos e clima.</div>
+      </details>
+
+      <details class="faq-item reveal delay-2">
+        <summary>A velocidade é simétrica? Upload igual ao download?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">Sim. Todos os planos Rapeedo têm velocidade simétrica — o upload é igual ao download. Isso faz diferença real em videochamadas, envio de arquivos, live e home office.</div>
+      </details>
+
+      <details class="faq-item reveal delay-3">
+        <summary>Tem fidelidade? O que acontece se eu cancelar?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">Nossos contratos têm fidelidade de 12 meses. Se cancelar antes do prazo, aplicamos uma multa proporcional ao tempo restante. Após os 12 meses, você pode cancelar a qualquer momento sem custo.</div>
+      </details>
+
+      <details class="faq-item reveal delay-4">
+        <summary>Quanto tempo demora a instalação?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">Após a contratação, nossa equipe agenda a visita técnica conforme a disponibilidade da agenda. Em muitos casos a instalação acontece no mesmo dia — o prazo médio é de <strong>24h a 3 dias úteis</strong>. A instalação em si leva entre 1 e 2 horas.</div>
+      </details>
+
+      <details class="faq-item reveal delay-5">
+        <summary>Os planos têm franquia de dados (limite de uso)?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">Não. Todos os planos Rapeedo são ilimitados — sem franquia, sem corte de velocidade e sem cobrança extra por uso excessivo. Use à vontade.</div>
+      </details>
+
+      <details class="faq-item reveal">
+        <summary>Como funciona o suporte técnico?
+          <span class="faq-chevron">▾</span>
+        </summary>
+        <div class="faq-body">Nosso <strong>NOC (Centro de Operações de Rede) funciona 24 horas por dia</strong>, monitorando a rede continuamente. O atendimento de suporte ao cliente é realizado todos os dias, das <strong>07:00 às 22:00</strong>. Você pode nos contatar via WhatsApp (33) 3038-1955 ou pelo 0800 276 0176 (gratuito).</div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- STATUS MODAL -->
+<div class="status-modal-overlay" id="statusOverlay" onclick="closeStatusModal()"></div>
+<div class="status-modal" id="statusModal">
+  <div class="status-modal-head">
+    <div>
+      <h3>Status da Rede Rapeedo</h3>
+      <p>Monitoramento em tempo real dos serviços.</p>
+    </div>
+    <button class="status-modal-close" onclick="closeStatusModal()">✕</button>
+  </div>
+  <div class="status-overall" id="statusOverall">
+    <div class="status-overall-dot green" id="statusOverallDot"></div>
+    <div>
+      <strong id="statusOverallTitle">Todos os serviços operacionais</strong>
+      <span id="statusOverallMsg">Nenhuma ocorrência registrada.</span>
+    </div>
+  </div>
+  <div class="status-services" id="statusServices"></div>
+  <div class="status-updated" id="statusUpdated">Atualizado agora</div>
+</div>
+
+<!-- CITY TOOLTIP -->
+<div class="city-tooltip" id="cityTooltip"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-top" id="backTop" onclick="document.documentElement.scrollTo({top:0,behavior:'smooth'}); window.scrollTo({top:0,behavior:'smooth'});" title="Voltar ao topo">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- FOOTER -->
+<footer class="footer">
+
+  <div class="footer-inner">
+
+    <!-- Col 1: Marca -->
+    <div class="footer-brand">
+      <a href="#" class="footer-logo-wrap">
+        <img src="VerticalBranca.png" alt="Rapeedo" />
+      </a>
+      <div class="footer-headline">Somos <em>Rapeedo.</em></div>
+      <div class="footer-sub">Velocidade que vai além da conexão.</div>
+      <div class="footer-socials">
+        <a class="soc" href="https://instagram.com/rapeedointernet" target="_blank" title="Instagram">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a class="soc" href="https://facebook.com/rapeedo" target="_blank" title="Facebook">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a class="soc" href="https://wa.me/553330381955" target="_blank" title="WhatsApp">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Col 2: Navegue -->
+    <div>
+      <div class="footer-col-title">Navegue</div>
+      <ul class="footer-links">
+        <li><a href="#quem-somos">Sobre Nós</a></li>
+        <li><a href="#cobertura">Cobertura</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#suporte">Fale Conosco</a></li>
+      </ul>
+    </div>
+
+    <!-- Col 3: Contato -->
+    <div>
+      <div class="footer-col-title">Contato</div>
+      <div class="footer-contact-list">
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Rua Francisco Neiva, 87<br>Medina, Minas Gerais</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v3l-.08-.08z"/></svg>
+          <span><a href="tel:08002760176">0800 276 0176</a></span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span><a href="mailto:contato@rapeedo.com.br">contato@rapeedo.com.br</a></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div style="max-width:960px;margin:0 auto;">
+      <div class="footer-copy">© 2026 Rapeedo. Todos os direitos reservados.</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">CNPJ 10.403.034/0001-80</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.2);">·</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">Autorizado ANATEL</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.2);">·</span>
+        <span style="font-size:0.7rem;color:rgba(255,255,255,0.2);letter-spacing:0.05em;">Desde 2008 no Vale do Jequitinhonha</span>
+      </div>
+    </div>
+  </div>
+
+</footer>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/553330381955?text=Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20Rapeedo" target="_blank" title="Falar no WhatsApp">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>
+</a>
+
+<!-- LEAFLET MAP -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // ── CAROUSEL ──
+  let carouselIndex = 0;
+  const totalSlides = 4;
+  let carouselTimer;
+
+  function carouselGo(index) {
+    carouselIndex = (index + totalSlides) % totalSlides;
+    document.getElementById('carouselTrack').style.transform = `translateX(-${carouselIndex * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === carouselIndex));
+    // Reinicia barra de progresso
+    const bar = document.getElementById('carouselProgress');
+    bar.style.animation = 'none';
+    bar.offsetHeight; // reflow
+    bar.style.animation = 'progress 5s linear infinite';
+  }
+  function carouselMove(dir) { carouselGo(carouselIndex + dir); resetTimer(); }
+  function resetTimer() { clearInterval(carouselTimer); carouselTimer = setInterval(() => carouselGo(carouselIndex + 1), 5000); }
+  resetTimer();
+
+  // ── PLAN TABS ──
+  function setTab(name) {
+    document.querySelectorAll('.plan-tab').forEach((t,i) => {
+      const tabs = ['residencial','gamer','empresarial','smart'];
+      t.classList.toggle('active', tabs[i] === name);
+    });
+    document.querySelectorAll('.plans-pane').forEach(p => p.classList.remove('active'));
+    document.getElementById('pane-' + name).classList.add('active');
+    setTimeout(() => document.getElementById('planos').scrollIntoView({behavior:'smooth'}), 50);
+  }
+
+  // ── VERIFICADOR DE COBERTURA ──
+  function verifFormat(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 0 && v.length <= 8 && /^\d+$/.test(input.value.replace('-',''))) {
+      if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5,8);
+      input.value = v;
+    }
+  }
+
+  function normStr(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
+  }
+
+  function verifShowResult(html) {
+    const el = document.getElementById('verifResult');
+    el.innerHTML = html;
+    el.classList.add('show');
+  }
+
+  async function verificarCobertura() {
+    const raw = document.getElementById('verifInput').value.trim();
+    if (!raw) { document.getElementById('verifInput').focus(); return; }
+
+    const btn = document.querySelector('.verif-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<svg class="verif-btn-icon" style="animation:spin 0.8s linear infinite" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>';
+
+    let cidadeNome = null;
+    let estadoNome = null;
+
+    const cep = raw.replace(/\D/g, '');
+    if (cep.length === 8) {
+      try {
+        const r = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const d = await r.json();
+        if (!d.erro) { cidadeNome = d.localidade; estadoNome = d.uf; }
+        else {
+          verifShowResult(`<div class="verif-card error"><div class="verif-card-icon">&#10060;</div><div class="verif-card-body"><div class="verif-card-title">CEP não encontrado</div><div class="verif-card-desc">Verifique o CEP ou tente digitar o nome da cidade.</div></div></div>`);
+          btn.disabled = false;
+          btn.innerHTML = '<span class="verif-btn-text">Verificar</span><svg class="verif-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          return;
+        }
+      } catch { cidadeNome = null; }
+    } else {
+      cidadeNome = raw;
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<span class="verif-btn-text">Verificar</span><svg class="verif-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+
+    if (!cidadeNome) {
+      verifShowResult(`<div class="verif-card error"><div class="verif-card-icon">&#9888;&#65039;</div><div class="verif-card-body"><div class="verif-card-title">Não foi possível identificar a cidade</div><div class="verif-card-desc">Tente digitar o nome da cidade diretamente.</div></div></div>`);
+      return;
+    }
+
+    const encontrada = cidades.find(c => normStr(c.cidade) === normStr(cidadeNome));
+
+    if (encontrada) {
+      const waMsg = encodeURIComponent('Olá! Quero saber sobre os planos disponíveis em ' + encontrada.cidade + ' - ' + encontrada.estado + '.');
+      verifShowResult(`
+        <div class="verif-card success">
+          <div class="verif-card-icon">&#9989;</div>
+          <div class="verif-card-body">
+            <div class="verif-card-title">A Rapeedo atende ${encontrada.cidade} &mdash; ${encontrada.estado}!</div>
+            <div class="verif-card-desc">Temos planos disponíveis na sua cidade. Escolha a melhor opção para você.</div>
+            <div class="verif-card-btns">
+              <a href="#planos" class="btn-verif-primary" onclick="document.getElementById('verifResult').classList.remove('show')">Ver Planos</a>
+              <a href="https://wa.me/553330381955?text=${waMsg}" target="_blank" class="btn-verif-wa">Falar no WhatsApp</a>
+            </div>
+          </div>
+        </div>`);
+    } else {
+      const waMsg = encodeURIComponent('Olá! Gostaria de saber quando a Rapeedo chegará em ' + cidadeNome + (estadoNome ? ' - ' + estadoNome : '') + '.');
+      verifShowResult(`
+        <div class="verif-card notfound">
+          <div class="verif-card-icon">&#128205;</div>
+          <div class="verif-card-body">
+            <div class="verif-card-title">Ainda não atendemos ${cidadeNome}${estadoNome ? ' &mdash; ' + estadoNome : ''}</div>
+            <div class="verif-card-desc">Estamos sempre expandindo! Fale conosco e deixe seu contato para ser avisado quando chegarmos.</div>
+            <div class="verif-card-btns">
+              <a href="https://wa.me/553330381955?text=${waMsg}" target="_blank" class="btn-verif-warn">Me avise quando chegar</a>
+            </div>
+          </div>
+        </div>`);
+    }
+  }
+
+  // ── CITY FILTER ──
+  function filterCities(term) {
+    const q = term.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const chips = document.querySelectorAll('#city-list .city-chip');
+    const labels = document.querySelectorAll('#city-list .city-state-label, #mg-label');
+    let visible = 0;
+    chips.forEach(chip => {
+      const name = chip.querySelector('span').textContent.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      const show = name.includes(q);
+      chip.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    labels.forEach(l => l.style.display = q ? 'none' : '');
+    document.getElementById('mg-label').style.display = q ? 'none' : '';
+  }
+
+  // ── SEARCH ──
+  function openSearch() {
+    document.getElementById('searchOverlay').classList.add('open');
+    setTimeout(() => document.getElementById('searchInput').focus(), 100);
+  }
+  function closeSearch() { document.getElementById('searchOverlay').classList.remove('open'); }
+  function scrollTo(id) {
+    closeSearch();
+    document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  }
+  document.getElementById('searchOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeSearch();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+
+  // ── MAP ──
+  const cidades = [
+    {cidade:'Medina',estado:'MG',sede:true,lat:-16.232,lng:-41.486,photo:'img/medina.jpg',wiki:'Medina_(Minas_Gerais)',desc:'Sede da Rapeedo e importante centro comercial do nordeste mineiro, coração do Vale do Jequitinhonha.'},
+    {cidade:'Águas Vermelhas',estado:'MG',lat:-15.748,lng:-41.459,photo:'img/aguas-vermelhas.jpg',wiki:'Águas_Vermelhas',desc:'Conhecida por sua tradição agropecuária e pela força econômica regional.'},
+    {cidade:'Almenara',estado:'MG',lat:-16.185,lng:-40.693,photo:'img/almenara.jpg',wiki:'Almenara',desc:'Conhecida como a cidade princesa do Jequitinhonha, referência regional em comércio e serviços.'},
+    {cidade:'Araçuaí',estado:'MG',lat:-16.853,lng:-42.067,photo:'img/aracuai.jpg',wiki:'Araçuaí',desc:'Conhecida como a capital do Vale do Jequitinhonha, marcada por sua riqueza cultural.'},
+    {cidade:'Bandeira',estado:'MG',lat:-15.867,lng:-40.567,photo:'img/bandeira.jpg',wiki:'Bandeira_(Minas_Gerais)',desc:'Conhecida por sua tradição rural e forte identidade comunitária.'},
+    {cidade:'Berizal',estado:'MG',lat:-15.684,lng:-41.581,photo:'img/berizal.jpg',wiki:'Berizal',desc:'Conhecida pelo crescimento agrícola e pela força da produção rural.'},
+    {cidade:'Cachoeira de Pajeú',estado:'MG',lat:-15.968,lng:-41.03,photo:'img/cachoeira-de-pajeu.jpg',wiki:'Cachoeira_de_Pajeú',desc:'Conhecida por suas raízes culturais e pela tradição no interior mineiro.'},
+    {cidade:'Comercinho',estado:'MG',lat:-16.4,lng:-41.783,photo:'img/comercinho.jpg',wiki:'Comercinho',desc:'Conhecida pela importância do comércio local para a região.'},
+    {cidade:'Curral de Dentro',estado:'MG',lat:-15.594,lng:-41.645,photo:'img/curral-de-dentro.jpg',wiki:'Curral_de_Dentro',desc:'Conhecida pela forte tradição agropecuária.'},
+    {cidade:'Divisa Alegre',estado:'MG',lat:-15.649,lng:-41.26,photo:'img/divisa-alegre.jpg',wiki:'Divisa_Alegre',desc:'Conhecida por sua posição estratégica na ligação entre municípios da região.'},
+    {cidade:'Divisópolis',estado:'MG',lat:-15.788,lng:-40.911,photo:'img/divisopolis.jpg',wiki:'Divisópolis',desc:'Conhecida pela atividade agrícola e pela tradição regional.'},
+    {cidade:'Fronteira dos Vales',estado:'MG',lat:-15.879,lng:-40.754,photo:'img/fronteira-dos-vales.jpg',wiki:'Fronteira_dos_Vales',desc:'Conhecida pela união de comunidades tradicionais do Vale.'},
+    {cidade:'Itaobim',estado:'MG',lat:-16.559,lng:-41.504,wiki:'Itaobim',desc:'Conhecida como importante ponto comercial às margens da BR-116.'},
+    {cidade:'Itinga',estado:'MG',lat:-16.609,lng:-41.769,wiki:'Itinga_(Minas_Gerais)',desc:'Conhecida pelo artesanato e pela riqueza cultural do Vale.'},
+    {cidade:'Jacinto',estado:'MG',lat:-16.143,lng:-40.289,photo:'img/jacinto.jpg',wiki:'Jacinto_(Minas_Gerais)',desc:'Conhecida pela força do comércio e tradição regional.'},
+    {cidade:'Jequitinhonha',estado:'MG',lat:-16.435,lng:-41.003,photo:'img/jequitinhonha.jpg',wiki:'Jequitinhonha',desc:'Conhecida por dar nome ao vale e pela importância histórica regional.'},
+    {cidade:'Joaíma',estado:'MG',lat:-16.654,lng:-41.035,photo:'img/joaima.jpg',wiki:'Joaíma',desc:'Conhecida por sua tradição agropecuária e cultural.'},
+    {cidade:'Mata Verde',estado:'MG',lat:-15.783,lng:-40.745,photo:'img/mata-verde.jpg',wiki:'Mata_Verde',desc:'Conhecida pela produção agrícola e pelo desenvolvimento local.'},
+    {cidade:'Monte Formoso',estado:'MG',lat:-16.987,lng:-41.429,wiki:'Monte_Formoso_(Minas_Gerais)',desc:'Conhecida pela tradição agrícola e pelas paisagens naturais.'},
+    {cidade:'Pedra Azul',estado:'MG',lat:-16.006,lng:-41.289,photo:'img/pedra-azul.jpg',wiki:'Pedra_Azul_(Minas_Gerais)',desc:'Conhecida por sua relevância econômica e localização estratégica.'},
+    {cidade:'Ponto dos Volantes',estado:'MG',lat:-16.843,lng:-42.448,wiki:'Ponto_dos_Volantes',desc:'Conhecida por sua importância logística na região.'},
+    {cidade:'Rubim',estado:'MG',lat:-16.373,lng:-40.551,photo:'img/rubim.jpg',wiki:'Rubim',desc:'Conhecida por sua tradição cultural e agropecuária.'},
+    {cidade:'Salto da Divisa',estado:'MG',lat:-16.003,lng:-39.964,photo:'img/salto-da-divisa.jpg',wiki:'Salto_da_Divisa',desc:'Conhecida por sua localização na divisa entre Minas Gerais e Bahia.'},
+    {cidade:'Santa Cruz de Salinas',estado:'MG',lat:-15.614,lng:-42.077,photo:'img/santa-cruz-de-salinas.jpg',wiki:'Santa_Cruz_de_Salinas',desc:'Conhecida pela tradição agrícola e raízes culturais fortes.'},
+    {cidade:'Santo Antônio do Jacinto',estado:'MG',lat:-16.528,lng:-40.185,photo:'img/santo-antonio-do-jacinto.jpg',wiki:'Santo_Antônio_do_Jacinto',desc:'Conhecida pela tradição religiosa e pela força da agricultura local.'},
+    {cidade:'Cândido Sales',estado:'BA',lat:-15.498,lng:-41.238,photo:'img/candido-sales.jpg',wiki:'Cândido_Sales',desc:'Conhecida pela força agropecuária e importância regional no sudoeste baiano.'},
+    {cidade:'Vitória da Conquista',estado:'BA',lat:-14.862,lng:-40.843,photo:'img/vitoria-da-conquista.jpg',wiki:'Vitória_da_Conquista',desc:'Conhecida como a Suíça Baiana, referência em desenvolvimento e qualidade de vida no interior da Bahia.'},
+  ];
+
+  const map = L.map('map', { scrollWheelZoom: false }).setView([-16.0, -41.2], 8);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap', maxZoom: 18
+  }).addTo(map);
+
+  const blueIcon = L.divIcon({
+    html: `<div style="width:14px;height:14px;border-radius:50%;background:#0050A4;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>`,
+    iconSize:[14,14], iconAnchor:[7,7], className:''
+  });
+  const orangeIcon = L.divIcon({
+    html: `<div style="width:18px;height:18px;border-radius:50%;background:#EC6C04;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.35)"></div>`,
+    iconSize:[18,18], iconAnchor:[9,9], className:''
+  });
+
+  cidades.forEach(c => {
+    const waText = encodeURIComponent(`Olá, sou de ${c.cidade}/${c.estado} e gostaria de saber mais sobre os planos Rapeedo.`);
+    const popup = `<div style="font-family:Inter,Arial,sans-serif;min-width:180px;max-width:220px;">
+      <strong style="font-size:0.9rem;color:#1a1d23;">${c.cidade}</strong><br>
+      <span style="font-size:0.72rem;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">${c.estado}${c.sede?' · Sede':''}</span>
+      ${c.desc ? `<p style="font-size:0.78rem;color:#4b5563;margin:6px 0 10px;line-height:1.5;">${c.desc}</p>` : '<br>'}
+      <a href="https://wa.me/553330381955?text=${waText}" target="_blank"
+         style="display:inline-block;background:#EC6C04;color:white;border-radius:6px;padding:5px 12px;font-size:0.78rem;font-weight:700;text-decoration:none;">
+        Falar com a Rapeedo
+      </a></div>`;
+    L.marker([c.lat, c.lng], {icon: c.sede ? orangeIcon : blueIcon})
+      .addTo(map).bindPopup(popup);
+  });
+
+  // ── GLASSMORPHISM NAVBAR + BACK TO TOP ──
+  const backTopBtn = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 40);
+    backTopBtn.classList.toggle('visible', window.scrollY > 500);
+  });
+
+  // ── SCROLL REVEAL ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── CONTADOR ANIMADO ──
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.auth-val').forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        const duration = 1400;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current) + suffix;
+          if (current >= target) clearInterval(timer);
+        }, 16);
+      });
+      counterObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.3 });
+  const authEl = document.getElementById('authority');
+  if (authEl) counterObserver.observe(authEl);
+
+  // ── SKELETON LOADING NOS PLANOS ──
+  document.querySelectorAll('.plan-card').forEach(card => {
+    card.style.position = 'relative';
+    const sk = document.createElement('div');
+    sk.className = 'skeleton-overlay';
+    card.appendChild(sk);
+    setTimeout(() => sk.style.opacity = '0', 500);
+    setTimeout(() => sk.remove(), 800);
+  });
+
+  // ── WHATSAPP CONTEXTUAL ──
+  const waMessages = {
+    'planos':     'Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20Rapeedo',
+    'cobertura':  'Olá%2C%20quero%20verificar%20a%20cobertura%20na%20minha%20cidade',
+    'suporte':    'Olá%2C%20preciso%20de%20suporte%20técnico',
+    'quem-somos': 'Olá%2C%20quero%20conhecer%20melhor%20a%20Rapeedo',
+    'default':    'Olá%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20planos%20Rapeedo',
+  };
+  const waFloat = document.querySelector('.wa-float');
+  const waSections = ['planos','cobertura','suporte','quem-somos'];
+  function updateWALink() {
+    const scrollY = window.scrollY + window.innerHeight / 2;
+    let active = 'default';
+    waSections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= scrollY) active = id;
+    });
+    if (waFloat) waFloat.href = `https://wa.me/553330381955?text=${waMessages[active] || waMessages.default}`;
+  }
+  window.addEventListener('scroll', updateWALink, { passive: true });
+  updateWALink();
+
+  // ── PARALLAX CARROSSEL ──
+  const carouselEl = document.querySelector('.carousel');
+  window.addEventListener('scroll', () => {
+    if (!carouselEl) return;
+    const rect = carouselEl.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    const offset = rect.top * 0.25;
+    Array.from(document.querySelectorAll('.carousel-slide')).forEach(slide => {
+      slide.style.backgroundPositionY = `calc(50% + ${offset}px)`;
+    });
+  }, { passive: true });
+
+  // ── DARK MODE ──
+  function toggleDark() {
+    const isDark = document.body.classList.toggle('dark');
+    localStorage.setItem('rapeedo-dark', isDark);
+    document.getElementById('iconDark').innerHTML = isDark
+      ? '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
+      : '<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>';
+  }
+  if (localStorage.getItem('rapeedo-dark') === 'true') toggleDark();
+
+
+  // city list
+  const listEl = document.getElementById('city-list');
+  const mg = cidades.filter(c => c.estado === 'MG');
+  const ba = cidades.filter(c => c.estado === 'BA');
+
+  // ── TOOLTIP COM FOTO WIKIPEDIA ──
+  const cityTip = document.getElementById('cityTooltip');
+  const imgCache = {};
+
+  function placeholderTip(c) {
+    return `<div class="ct-img-placeholder">📍</div><div class="ct-body"><div class="ct-name">${c.cidade} · ${c.estado}</div><div class="ct-desc">${c.desc}</div></div>`;
+  }
+
+  async function fetchCityImg(c) {
+    if (c.cidade in imgCache) return imgCache[c.cidade];
+    if (c.photo) {
+      imgCache[c.cidade] = c.photo;
+      return c.photo;
+    }
+    imgCache[c.cidade] = null;
+    try {
+      const slug = (c.wiki || c.cidade.replace(/ /g,'_'));
+      const apiUrl = 'https://pt.wikipedia.org/w/api.php?action=query'
+        + '&prop=pageimages&format=json&pithumbsize=400&origin=*'
+        + '&titles=' + encodeURIComponent(slug);
+      const r = await fetch(apiUrl);
+      if (!r.ok) throw new Error('http ' + r.status);
+      const d = await r.json();
+      const pages = d?.query?.pages || {};
+      const page  = Object.values(pages)[0];
+      const url   = page?.thumbnail?.source || null;
+      imgCache[c.cidade] = url;
+      return url;
+    } catch(err) {
+      console.warn('Wiki img fail:', c.cidade, err);
+      imgCache[c.cidade] = null;
+      return null;
+    }
+  }
+
+  function renderTip(c, imgUrl) {
+    const img = imgUrl
+      ? `<img class="ct-img" src="${imgUrl}" alt="${c.cidade}" loading="lazy">`
+      : `<div class="ct-img-placeholder">📍</div>`;
+    cityTip.innerHTML = `${img}<div class="ct-body"><div class="ct-name">${c.cidade} · ${c.estado}</div><div class="ct-desc">${c.desc}</div></div>`;
+  }
+
+  function moveCityTip(e) {
+    const w = 240, pad = 16;
+    let x = e.clientX + pad;
+    let y = e.clientY + pad;
+    if (x + w > window.innerWidth)  x = e.clientX - w - pad;
+    if (y + 200 > window.innerHeight) y = e.clientY - 200 - pad;
+    cityTip.style.left = x + 'px';
+    cityTip.style.top  = y + 'px';
+  }
+
+  async function showCityTip(e, c) {
+    renderTip(c, imgCache[c.cidade] || null);
+    cityTip.classList.add('show');
+    moveCityTip(e);
+    const url = await fetchCityImg(c);
+    if (cityTip.classList.contains('show')) renderTip(c, url);
+  }
+
+  function hideCityTip() { cityTip.classList.remove('show'); }
+
+  const waIconSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.023.504 3.927 1.384 5.591L0 24l6.521-1.367A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.894 0-3.67-.527-5.187-1.441L3 21.5l.956-3.705A9.942 9.942 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/></svg>`;
+
+  function makeChip(c) {
+    const waText = encodeURIComponent(`Olá, sou de ${c.cidade}/${c.estado} e gostaria de saber mais sobre os planos Rapeedo.`);
+    const a = document.createElement('a');
+    a.className = 'city-chip' + (c.sede ? ' sede' : '');
+    a.href = `https://wa.me/553330381955?text=${waText}`;
+    a.target = '_blank';
+    a.innerHTML = `<span>${c.cidade}${c.sede ? ' <span class="sede-badge">Sede</span>' : ''}</span><span class="wa-icon">${waIconSVG}</span>`;
+    if (c.desc) {
+      a.addEventListener('mouseenter', e => showCityTip(e, c));
+      a.addEventListener('mousemove',  e => moveCityTip(e));
+      a.addEventListener('mouseleave', hideCityTip);
+    }
+    return a;
+  }
+
+  mg.forEach(c => listEl.appendChild(makeChip(c)));
+
+  const baLabel = document.createElement('div');
+  baLabel.className = 'city-state-label';
+  baLabel.textContent = 'Bahia — 2 cidades';
+  baLabel.style.marginTop = '0.75rem';
+  listEl.appendChild(baLabel);
+  ba.forEach(c => listEl.appendChild(makeChip(c)));
+
+  // ── MENU MOBILE ──
+  function toggleMenu() {
+    const nav = document.querySelector('.nav-links');
+    const btn = document.getElementById('btnHamburger');
+    nav.classList.toggle('open');
+    btn.classList.toggle('open');
+    document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+  }
+  // Fechar ao clicar em link
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+      document.getElementById('btnHamburger').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
+  // ── NETWORK STATUS ──
+  const statusColors = {
+    operational: 'green',
+    degraded:    'yellow',
+    outage:      'red'
+  };
+  const statusLabels = {
+    operational: 'Operacional',
+    degraded:    'Instabilidade',
+    outage:      'Fora do ar'
+  };
+  const statusNavLabel = {
+    operational: 'Rede operacional',
+    degraded:    'Instabilidade detectada',
+    outage:      'Falha na rede'
+  };
+  const statusOverallLabel = {
+    operational: 'Todos os serviços operacionais',
+    degraded:    'Instabilidade em algum serviço',
+    outage:      'Falha crítica detectada'
+  };
+
+  async function loadNetworkStatus() {
+    try {
+      const r = await fetch('status.json?t=' + Date.now());
+      const d = await r.json();
+      applyStatus(d);
+    } catch {
+      // fallback: assume operacional
+      applyStatus({ status:'operational', message:'Todos os serviços operando normalmente.', services:[], updated: new Date().toISOString() });
+    }
+  }
+
+  function applyStatus(d) {
+    const color = statusColors[d.status] || 'green';
+    // Badge navbar
+    const dot  = document.getElementById('statusDot');
+    const text = document.getElementById('statusText');
+    dot.className  = 'status-dot ' + color;
+    text.textContent = statusNavLabel[d.status] || 'Rede operacional';
+    // Modal overall
+    document.getElementById('statusOverallDot').className   = 'status-overall-dot ' + color;
+    document.getElementById('statusOverallTitle').textContent = statusOverallLabel[d.status] || '';
+    document.getElementById('statusOverallMsg').textContent   = d.message || '';
+    // Serviços
+    const svcEl = document.getElementById('statusServices');
+    svcEl.innerHTML = '';
+    (d.services || []).forEach(s => {
+      const c = statusColors[s.status] || 'green';
+      const lbl = statusLabels[s.status] || 'Operacional';
+      svcEl.innerHTML += `<div class="status-svc">
+        <span class="status-svc-name">${s.name}</span>
+        <span class="status-svc-tag ${c}">${lbl}</span>
+      </div>`;
+    });
+    // Atualizado
+    try {
+      const dt = new Date(d.updated);
+      document.getElementById('statusUpdated').textContent =
+        'Atualizado em ' + dt.toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    } catch {}
+  }
+
+  function openStatusModal() {
+    loadNetworkStatus();
+    document.getElementById('statusModal').classList.add('open');
+    document.getElementById('statusOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeStatusModal() {
+    document.getElementById('statusModal').classList.remove('open');
+    document.getElementById('statusOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Carrega ao iniciar e atualiza a cada 60s
+  loadNetworkStatus();
+  setInterval(loadNetworkStatus, 60000);
+
+
+  // ── CALCULADORA ──
+  const rapeedoPlans = [
+    { name: 'Combo Essencial', speed: 500,  price: 99.90  },
+    { name: 'Combo Força',     speed: 700,  price: 119.90 },
+    { name: 'Combo Total',     speed: 1000, price: 149.90 },
+  ];
+
+  function calcular() {
+    const priceInput = parseFloat(document.getElementById('calcPrice').value);
+    const speedInput = parseInt(document.getElementById('calcSpeed').value);
+
+    if (!priceInput || !speedInput) {
+      alert('Preencha o valor atual e a velocidade para calcular.');
+      return;
+    }
+
+    // Encontra o melhor plano: mesma velocidade ou superior pelo menor preço
+    let plan = rapeedoPlans[0];
+    for (const p of rapeedoPlans) {
+      if (p.speed >= speedInput) { plan = p; break; }
+    }
+    if (speedInput > 700) plan = rapeedoPlans[2];
+
+    const saving = priceInput - plan.price;
+    const savingAbs = Math.abs(saving).toFixed(2).replace('.',',');
+
+    document.getElementById('crPlanName').textContent = plan.name;
+    document.getElementById('crSpeed').textContent = plan.speed >= 1000 ? '1 Gbps' : plan.speed + ' Mb';
+    document.getElementById('crAtual').textContent = 'R$ ' + priceInput.toFixed(2).replace('.',',');
+    document.getElementById('crRapeedo').textContent = 'R$ ' + plan.price.toFixed(2).replace('.',',');
+
+    const savEl = document.getElementById('crSaving');
+    const savTxt = document.getElementById('crSavingText');
+    if (saving > 0) {
+      savEl.className = 'cr-saving';
+      savTxt.textContent = `✓ Você economiza R$ ${savingAbs}/mês com mais velocidade`;
+    } else if (saving < 0) {
+      savEl.className = 'cr-saving cr-saving-neg';
+      savTxt.textContent = `Por apenas R$ ${savingAbs} a mais, você ganha ${plan.speed >= 1000 ? '1 Gbps' : plan.speed + ' Mb'} de fibra óptica real`;
+    } else {
+      savEl.className = 'cr-saving';
+      savTxt.textContent = `✓ Mesmo valor — mas com fibra óptica própria e suporte local`;
+    }
+
+    const waMsg = encodeURIComponent(`Olá! Calculei pelo site e o plano ${plan.name} (${plan.speed >= 1000 ? '1 Gbps' : plan.speed + 'Mb'}) é o ideal para mim. Quero mais informações!`);
+    document.getElementById('crWa').href = `https://wa.me/553330381955?text=${waMsg}`;
+
+    const result = document.getElementById('calcResult');
+    result.classList.remove('show');
+    void result.offsetWidth;
+    result.classList.add('show');
+  }
+
+  // ── LGPD ──
+  function lgpdAccept() { document.getElementById('lgpdBar').classList.remove('show'); }
+  function lgpdClose()  { document.getElementById('lgpdBar').classList.remove('show'); }
+  // Sempre exibe ao carregar (modo teste — remover localStorage para não salvar resposta)
+  setTimeout(() => document.getElementById('lgpdBar').classList.add('show'), 1800);
+
+  // ── PAINEL DE CONTATO ──
+  function openContactPanel() {
+    document.getElementById('contactPanel').classList.add('open');
+    document.getElementById('cpOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeContactPanel() {
+    document.getElementById('contactPanel').classList.remove('open');
+    document.getElementById('cpOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // ── MODAL CALCULADORA ──
+  function openCalcModal() {
+    document.getElementById('calcModal').classList.add('open');
+    document.getElementById('calcModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCalcModal() {
+    document.getElementById('calcModal').classList.remove('open');
+    document.getElementById('calcModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function calcularModal() {
+    const priceInput = parseFloat(document.getElementById('calcPriceModal').value);
+    const speedInput = parseInt(document.getElementById('calcSpeedModal').value);
+
+    if (!priceInput || !speedInput) {
+      alert('Preencha o valor atual e a velocidade para calcular.');
+      return;
+    }
+
+    let plan = rapeedoPlans[0];
+    for (const p of rapeedoPlans) {
+      if (p.speed >= speedInput) { plan = p; break; }
+    }
+    if (speedInput > 700) plan = rapeedoPlans[2];
+
+    const saving = priceInput - plan.price;
+    const savingAbs = Math.abs(saving).toFixed(2).replace('.',',');
+
+    document.getElementById('crPlanNameM').textContent = plan.name;
+    document.getElementById('crSpeedM').textContent = plan.speed >= 1000 ? '1 Gbps' : plan.speed + ' Mb';
+    document.getElementById('crAtualM').textContent = 'R$ ' + priceInput.toFixed(2).replace('.',',');
+    document.getElementById('crRapeedoM').textContent = 'R$ ' + plan.price.toFixed(2).replace('.',',');
+
+    const savEl = document.getElementById('crSavingM');
+    const savTxt = document.getElementById('crSavingTextM');
+    if (saving > 0) {
+      savEl.className = 'cr-saving';
+      savTxt.textContent = `✓ Você economiza R$ ${savingAbs}/mês com mais velocidade`;
+    } else if (saving < 0) {
+      savEl.className = 'cr-saving cr-saving-neg';
+      savTxt.textContent = `Por apenas R$ ${savingAbs} a mais, você ganha ${plan.speed >= 1000 ? '1 Gbps' : plan.speed + ' Mb'} de fibra óptica real`;
+    } else {
+      savEl.className = 'cr-saving';
+      savTxt.textContent = `✓ Mesmo valor — mas com fibra óptica própria e suporte local`;
+    }
+
+    const waMsg = encodeURIComponent(`Olá! Calculei pelo site e o plano ${plan.name} (${plan.speed >= 1000 ? '1 Gbps' : plan.speed + 'Mb'}) é o ideal para mim. Quero mais informações!`);
+    document.getElementById('crWaM').href = `https://wa.me/553330381955?text=${waMsg}`;
+
+    const result = document.getElementById('calcResultModal');
+    result.classList.remove('show');
+    void result.offsetWidth;
+    result.classList.add('show');
+  }
+  // ── MODAL QUIZ ──
+  function openQuizModal() {
+    quizReset();
+    document.getElementById('quizModal').classList.add('open');
+    document.getElementById('quizModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeQuizModal() {
+    document.getElementById('quizModal').classList.remove('open');
+    document.getElementById('quizModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  // ── MODAL FORMULÁRIO ──
+  function openFormModal() {
+    document.getElementById('formModal').classList.add('open');
+    document.getElementById('formModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFormModal() {
+    document.getElementById('formModal').classList.remove('open');
+    document.getElementById('formModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Stats bar counters
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.querySelectorAll('.stat-val[data-target]').forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        const duration = 1600;
+        const step = target / (duration / 16);
+        let current = 0;
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.floor(current) + suffix;
+          if (current >= target) clearInterval(timer);
+        }, 16);
+      });
+      statsObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.3 });
+  const statsEl = document.getElementById('stats-bar');
+  if (statsEl) statsObserver.observe(statsEl);
+
+  // ── QUIZ ──
+  let quizAnswers = [];
+  function quizNext(step, answer) {
+    quizAnswers[step] = answer;
+    document.getElementById('qs' + step).classList.remove('active');
+    if (step < 3) {
+      document.getElementById('qs' + (step + 1)).classList.add('active');
+      document.getElementById('qd' + (step + 1)).classList.add('done');
+    } else {
+      quizShowResult();
+    }
+  }
+  function quizShowResult() {
+    const [, q1, q2, q3] = quizAnswers;
+    let plan = 'vigor';
+    // Lógica de recomendação
+    if (q1 === 3 || q3 === 2) plan = 'vigor'; // gamer ou velocidade → vigor
+    if (q2 === 3 || q3 === 3) plan = 'supremo'; // muitas pessoas ou streaming → supremo
+    if (q1 === 1 && q2 === 1 && q3 === 1) plan = 'alegria'; // básico → alegria
+    const plans = {
+      alegria: { name: 'Combo Alegria', speed: '500 Mb', price: 'R$99,90', badge: 'Econômico', msg: 'Quero%20o%20Combo%20Alegria%20500Mb' },
+      vigor:   { name: 'Combo Vigor',   speed: '800 Mb', price: 'R$119,90', badge: 'Mais popular', msg: 'Quero%20o%20Combo%20Vigor%20800Mb' },
+      supremo: { name: 'Combo Supremo', speed: '1 Giga', price: 'R$149,90', badge: 'Completo', msg: 'Quero%20o%20Combo%20Supremo%201Giga' },
+    };
+    const p = plans[plan];
+    document.getElementById('quiz-badge').textContent = p.badge;
+    document.getElementById('quiz-name').textContent = p.name;
+    document.getElementById('quiz-speed').textContent = p.speed;
+    document.getElementById('quiz-price').textContent = p.price;
+    document.getElementById('quiz-wa').href = `https://wa.me/553330381955?text=${p.msg}`;
+    document.getElementById('qs3').classList.remove('active');
+    document.getElementById('qs-result').classList.add('active');
+  }
+  function quizReset() {
+    quizAnswers = [];
+    document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.quiz-dot').forEach((d,i) => d.classList.toggle('done', i===0));
+    document.getElementById('qs1').classList.add('active');
+  }
+
+  // ── FORMULÁRIO ──
+  function submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    const nome = form.querySelector('input[type="text"]').value;
+    const cidade = form.querySelectorAll('input[type="text"]')[1].value;
+    const tel = form.querySelector('input[type="tel"]').value;
+    const assunto = form.querySelector('select').value || 'Contato';
+    const msg = form.querySelector('textarea').value;
+    const waText = encodeURIComponent(`Olá! Me chamo ${nome}, sou de ${cidade}.\nAssunto: ${assunto}\n${msg ? 'Mensagem: '+msg : ''}\nTelefone: ${tel}`);
+    window.open(`https://wa.me/553330381955?text=${waText}`, '_blank');
+    document.getElementById('formSuccess').style.display = 'block';
+    form.reset();
+    setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 5000);
+  }
+</script>
+
+<!-- LGPD COOKIES -->
+<div class="lgpd-bar" id="lgpdBar">
+  <div class="lgpd-text">
+    🍪 Usamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa
+    <a href="politica-de-privacidade.html">Política de Privacidade</a>.
+  </div>
+  <div class="lgpd-btns">
+    <button class="lgpd-reject" onclick="lgpdClose()">Só essenciais</button>
+    <button class="lgpd-accept" onclick="lgpdAccept()">Aceitar todos</button>
+  </div>
+</div>
+
+<!-- VLIBRAS — Acessibilidade em Libras -->
+<style>
+  /* VLibras junto ao botão WhatsApp — canto inferior direito */
+  [vw-access-button] { bottom: 5.5rem !important; right: 1.5rem !important; left: auto !important; }
+  [vw-plugin-wrapper] { bottom: 5.5rem !important; right: 1.5rem !important; left: auto !important; }
+</style>
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
+</body>
+</html>

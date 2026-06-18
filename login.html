@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Login — Rapeedo Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#003D7A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+.wrapper{display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px;gap:1.5rem}
+.brand{text-align:center;margin-bottom:.25rem}
+.brand-name{color:#003D7A;font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+.brand-sub{color:#6B7280;font-size:.8rem;margin-top:.25rem;text-transform:uppercase;letter-spacing:.08em}
+.card{background:#fff;border-radius:12px;padding:2rem;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.card-title{font-size:1rem;font-weight:700;color:#111827;margin-bottom:.25rem}
+.card-sub{font-size:.82rem;color:#6B7280;margin-bottom:1.5rem}
+.form-group{margin-bottom:1.1rem}
+label{display:block;font-size:.78rem;font-weight:600;color:#374151;margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.04em}
+input{width:100%;padding:.65rem .9rem;border:1.5px solid #D1D5DB;border-radius:8px;font-size:.9rem;font-family:'Inter',sans-serif;transition:border-color .2s;color:#111827;background:#fff}
+input:focus{outline:none;border-color:#003D7A;box-shadow:0 0 0 3px rgba(0,61,122,.08)}
+.btn{width:100%;padding:.75rem;background:#003D7A;color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .2s;font-family:'Inter',sans-serif;letter-spacing:.01em}
+.btn:hover{background:#00264D}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.erro{color:#DC2626;font-size:.82rem;margin-top:.75rem;text-align:center;padding:.5rem;background:#FEE2E2;border-radius:6px;display:none}
+.erro.visivel{display:block}
+.divider{border:none;border-top:1px solid #E5E7EB;margin:1.25rem 0}
+.rodape{text-align:center;color:rgba(255,255,255,.35);font-size:.75rem}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="card">
+    <div class="brand">
+      <img src="/logo.png" alt="Rapeedo" style="height:80px;object-fit:contain;margin-bottom:.5rem"/>
+      <div class="brand-name">Rapeedo Hub</div>
+      <div class="brand-sub">Plataforma de Gestão</div>
+    </div>
+    <hr class="divider"/>
+    <form id="form">
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="email" placeholder="seu@email.com" required autocomplete="email"/>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input type="password" id="senha" placeholder="••••••••" required autocomplete="current-password"/>
+      </div>
+      <button class="btn" type="submit" id="btn">Entrar</button>
+      <div class="erro" id="erro"></div>
+    </form>
+  </div>
+  <div class="rodape">Rapeedo &copy; 2026 — Uso interno</div>
+</div>
+<script>
+document.getElementById('form').onsubmit = async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('btn');
+  const erro = document.getElementById('erro');
+  btn.disabled = true; btn.textContent = 'Verificando...'; erro.classList.remove('visivel');
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: document.getElementById('email').value, senha: document.getElementById('senha').value })
+    });
+    const data = await r.json();
+    if (!r.ok) { erro.textContent = data.erro || 'Credenciais inválidas.'; erro.classList.add('visivel'); return; }
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+    window.location.href = '/';
+  } catch { erro.textContent = 'Não foi possível conectar ao servidor.'; erro.classList.add('visivel'); }
+  finally { btn.disabled = false; btn.textContent = 'Entrar'; }
+};
+if (localStorage.getItem('token')) window.location.href = '/';
+</script>
+</body>
+</html>

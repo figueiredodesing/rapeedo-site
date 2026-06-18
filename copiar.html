@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cliente Offline — Rapeedo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#F3F4F6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+.card{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.10);max-width:480px;width:100%;overflow:hidden}
+.card-header{background:#00264D;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:.75rem}
+.logo-dot{width:10px;height:10px;border-radius:50%;background:#F58220;flex-shrink:0}
+.header-title{color:#fff;font-size:.95rem;font-weight:700;letter-spacing:-.01em}
+.header-sub{color:rgba(255,255,255,.55);font-size:.72rem;margin-top:.1rem}
+.card-body{padding:1.5rem}
+.alert-badge{display:inline-flex;align-items:center;gap:.4rem;background:#FEF2F2;color:#991B1B;border:1.5px solid #FCA5A5;border-radius:8px;padding:.35rem .75rem;font-size:.78rem;font-weight:600;margin-bottom:1.25rem}
+.msg-box{background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+.msg-text{font-size:.875rem;color:#1E293B;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.btn-copiar{width:100%;padding:.75rem 1rem;background:#003D7A;color:#fff;border:none;border-radius:10px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s}
+.btn-copiar:hover{background:#00264D}
+.btn-copiar.copiado{background:#16A34A}
+.btn-copiar svg{flex-shrink:0}
+.empty{text-align:center;color:#94A3B8;padding:2rem 1.5rem;font-size:.875rem}
+.sep{border:none;border-top:1.5px dashed #CBD5E1;margin:1rem 0}
+.footer{padding:.75rem 1.5rem;border-top:1px solid #F1F5F9;text-align:center;font-size:.72rem;color:#94A3B8}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-header">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="header-title">Rapeedo Hub</div>
+      <div class="header-sub">Alerta de Cliente Offline</div>
+    </div>
+  </div>
+  <div class="card-body" id="body">
+    <div class="empty">Carregando...</div>
+  </div>
+  <div class="footer">Rapeedo &mdash; Sistema interno de monitoramento</div>
+</div>
+
+<script>
+(function(){
+  const hash = location.hash.slice(1);
+  const body = document.getElementById('body');
+
+  if(!hash){
+    body.innerHTML='<div class="empty">Nenhuma informação disponível neste link.</div>';
+    return;
+  }
+
+  let mensagem = '';
+  try {
+    mensagem = decodeURIComponent(escape(atob(hash)));
+  } catch(e) {
+    body.innerHTML='<div class="empty">Não foi possível decodificar a mensagem.</div>';
+    return;
+  }
+
+  // Detectar faixa pela primeira linha para badge
+  const isVermelho = mensagem.includes('🔴');
+  const isLaranja  = mensagem.includes('🟠');
+  const badgeColor = isVermelho
+    ? {bg:'#FEF2F2',color:'#991B1B',border:'#FCA5A5',label:'Alerta crítico — 7 a 10 dias offline'}
+    : isLaranja
+    ? {bg:'#FFF7ED',color:'#9A3412',border:'#FDBA74',label:'Alerta — 4 a 6 dias offline'}
+    : {bg:'#FFFBEB',color:'#92400E',border:'#FCD34D',label:'Atenção — 0 a 3 dias offline'};
+
+  // Separar blocos de clientes
+  const blocos = mensagem.split('\n\n────────────────────\n\n');
+
+  let html = `
+    <div class="alert-badge" style="background:${badgeColor.bg};color:${badgeColor.color};border-color:${badgeColor.border}">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      ${badgeColor.label}
+    </div>`;
+
+  if(blocos.length > 1){
+    html += `<p style="font-size:.78rem;color:#64748B;margin-bottom:.75rem;font-weight:500">${blocos.length} cliente${blocos.length>1?'s':''} no alerta:</p>`;
+  }
+
+  html += '<div class="msg-box">';
+  blocos.forEach((bloco, i) => {
+    if(i > 0) html += '<hr class="sep"/>';
+    html += `<div class="msg-text">${esc(bloco.trim())}</div>`;
+  });
+  html += '</div>';
+
+  html += `
+    <button class="btn-copiar" id="btn-copiar" onclick="copiar()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar mensagem
+    </button>`;
+
+  body.innerHTML = html;
+
+  window._mensagemCompleta = mensagem;
+})();
+
+function esc(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function copiar(){
+  const btn = document.getElementById('btn-copiar');
+  const texto = window._mensagemCompleta || '';
+  if(!texto) return;
+
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(texto).then(()=>{ ok(btn); }).catch(()=>{ fallback(texto,btn); });
+  } else {
+    fallback(texto, btn);
+  }
+}
+
+function fallback(texto, btn){
+  const ta = document.createElement('textarea');
+  ta.value = texto;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); ok(btn); } catch(e){ alert('Não foi possível copiar automaticamente. Selecione o texto e copie manualmente.'); }
+  document.body.removeChild(ta);
+}
+
+function ok(btn){
+  btn.classList.add('copiado');
+  btn.innerHTML = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    Copiado!`;
+  setTimeout(()=>{
+    btn.classList.remove('copiado');
+    btn.innerHTML = `
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      Copiar mensagem`;
+  }, 2500);
+}
+</script>
+</body>
+</html>

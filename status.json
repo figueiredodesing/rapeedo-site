@@ -1,0 +1,12 @@
+{
+  "status": "operational",
+  "message": "Todos os serviços operando normalmente.",
+  "services": [
+    { "name": "Fibra Óptica — Vale do Jequitinhonha", "status": "operational" },
+    { "name": "Fibra Óptica — Sudoeste Baiano",       "status": "operational" },
+    { "name": "NOC — Monitoramento 24h",               "status": "operational" },
+    { "name": "Área do Cliente",                       "status": "operational" },
+    { "name": "Teste de Velocidade",                   "status": "operational" }
+  ],
+  "updated": "2026-04-26T23:00:00"
+}
