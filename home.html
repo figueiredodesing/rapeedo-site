@@ -407,6 +407,7 @@
     @keyframes slideProgress { from { width: 0% } to { width: 100% } }
     @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
     .mobile-quick-actions { display: none; }
+    .swipe-hint { display: none; }
 
     .btn-hero-orange {
       background: var(--orange); color: var(--white); border: none;
@@ -1517,6 +1518,16 @@
       .mqa-btn-quiz    { background: #7c3aed; }
       .wa-float { bottom: 16px; }
       .back-top { bottom: 16px; }
+      .swipe-hint {
+        display: flex; align-items: center; justify-content: center;
+        gap: 0.4rem; margin-bottom: 0.75rem;
+        font-size: 0.72rem; font-weight: 600; color: var(--text-muted);
+        animation: swipeAnim 1.4s ease-in-out infinite;
+      }
+      @keyframes swipeAnim {
+        0%, 100% { opacity: 0.5; transform: translateX(0); }
+        50%       { opacity: 1;   transform: translateX(4px); }
+      }
       .lgpd-bar { bottom: 0 !important; }
       /* Stats */
       .stats-inner { grid-template-columns: repeat(2,1fr); }
@@ -1932,6 +1943,13 @@
       <button class="plan-tab" onclick="setTab('gamer')">Gamer</button>
       <button class="plan-tab" onclick="setTab('empresarial')">Empresarial</button>
       <button class="plan-tab" onclick="setTab('smart')">Smart</button>
+    </div>
+
+    <!-- Dica de swipe — só aparece no mobile -->
+    <div class="swipe-hint" id="swipeHint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Arraste para ver mais planos
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     </div>
 
     <!-- RESIDENCIAL -->
