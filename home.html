@@ -406,6 +406,7 @@
     }
     @keyframes slideProgress { from { width: 0% } to { width: 100% } }
     @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+    .mobile-quick-actions { display: none; }
 
     .btn-hero-orange {
       background: var(--orange); color: var(--white); border: none;
@@ -1493,30 +1494,30 @@
         display: flex; flex-direction: column;
       }
       .sup-contact { margin-top: auto; padding-top: 0.5rem; }
-      /* Barra de navegação inferior */
-      body { padding-bottom: 62px; }
+      body { padding-bottom: 0; }
       .carousel-slide { height: auto; min-height: unset; padding-top: 3rem; padding-bottom: 3rem; }
       .slide-content { padding: 2rem 1.5rem; margin-left: 0; max-width: 100%; }
-      .side-tabs {
-        position: fixed; bottom: 0; top: unset; left: 0; right: 0;
-        transform: none;
-        width: 100%; flex-direction: row;
-        border-radius: 0; height: 62px;
-        box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
-        z-index: 400;
+      .side-tabs { display: none; }
+      .mobile-quick-actions {
+        display: flex; flex-direction: row;
+        border-bottom: 1px solid var(--border);
       }
-      .side-tab {
-        flex: 1; max-width: unset; border-radius: 0;
-        font-size: 0.6rem; height: 62px;
-        padding: 0.4rem 0.25rem; gap: 0.2rem;
-        flex-direction: column; justify-content: center;
+      .mqa-btn {
+        flex: 1; display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 0.35rem; padding: 0.85rem 0.4rem;
+        font-size: 0.65rem; font-weight: 700; letter-spacing: 0.03em;
+        color: #fff; text-decoration: none; cursor: pointer;
+        border: none; font-family: inherit; text-align: center;
+        line-height: 1.2;
       }
-      .side-tab:hover { max-width: unset; }
-      .side-tab svg { width: 20px; height: 20px; }
-      /* Posicionamento acima da nav bar */
-      .wa-float { bottom: 74px; }
-      .back-top { bottom: 74px; }
-      .lgpd-bar { bottom: 62px !important; z-index: 390 !important; }
+      .mqa-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+      .mqa-btn-contact { background: var(--blue); }
+      .mqa-btn-speed   { background: var(--orange); }
+      .mqa-btn-quiz    { background: #7c3aed; }
+      .wa-float { bottom: 16px; }
+      .back-top { bottom: 16px; }
+      .lgpd-bar { bottom: 0 !important; }
       /* Stats */
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
@@ -1789,6 +1790,21 @@
   <div class="carousel-progress" id="carouselProgress"></div>
 </section>
 
+<!-- AÇÕES RÁPIDAS MOBILE -->
+<div class="mobile-quick-actions">
+  <button class="mqa-btn mqa-btn-contact" onclick="openContactPanel()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    Fale Conosco
+  </button>
+  <a class="mqa-btn mqa-btn-speed" href="https://teste.rapeedo.com.br/" target="_blank">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    Teste de Velocidade
+  </a>
+  <button class="mqa-btn mqa-btn-quiz" onclick="openQuizModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Qual é o Meu Plano?
+  </button>
+</div>
 
 <!-- STATS BAR -->
 <div class="stats-bar" id="stats-bar">
