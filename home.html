@@ -1181,7 +1181,7 @@
 
     /* ── LGPD ── */
     .lgpd-bar {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+      position: fixed !important; bottom: 0; left: 0; right: 0; z-index: 9000;
       background: #0f172a; border-top: 1px solid rgba(255,255,255,0.08);
       padding: 1rem 1.5rem; display: flex; align-items: center;
       gap: 1.5rem; flex-wrap: wrap; justify-content: space-between;
@@ -3402,10 +3402,9 @@
   }
 
   // ── LGPD ──
-  function lgpdAccept() { document.getElementById('lgpdBar').classList.remove('show'); }
-  function lgpdClose()  { document.getElementById('lgpdBar').classList.remove('show'); }
-  // Sempre exibe ao carregar (modo teste — remover localStorage para não salvar resposta)
-  setTimeout(() => document.getElementById('lgpdBar').classList.add('show'), 1800);
+  function lgpdAccept() { localStorage.setItem('lgpd','1'); document.getElementById('lgpdBar').classList.remove('show'); }
+  function lgpdClose()  { localStorage.setItem('lgpd','1'); document.getElementById('lgpdBar').classList.remove('show'); }
+  if (!localStorage.getItem('lgpd')) setTimeout(() => document.getElementById('lgpdBar').classList.add('show'), 1800);
 
   // ── PAINEL DE CONTATO ──
   function openContactPanel() {
